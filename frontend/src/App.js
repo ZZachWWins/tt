@@ -50,6 +50,8 @@ function App() {
     }
   ];
 
+  const featuredProducts = [products[0], products[1]]; // Select first two products for Featured section
+
   const handleLogin = (e) => {
     e.preventDefault();
     // Mock login - replace with real auth if needed
@@ -101,6 +103,20 @@ function App() {
       <p className="landing-text">
         Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week!
       </p>
+      <div className="featured-products-section">
+        <h2 className="featured-products-title">Featured Products</h2>
+        <div className="product-grid">
+          {featuredProducts.map((product) => (
+            <div key={product.id} className="product-card">
+              <img src={product.image} alt={product.name} className="product-image" />
+              <h3 className="product-name">{product.name}</h3>
+              <p className="product-description">{product.description}</p>
+              <p className="product-price">${product.price.toFixed(2)}</p>
+              <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
+            </div>
+          ))}
+        </div>
+      </div>
       <button className="cta-btn" onClick={() => setShowHistory(true)}>
         History of Delta-9 & Hemp
       </button>
