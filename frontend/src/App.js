@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
@@ -15,6 +16,7 @@ function App() {
   const [signupUsername, setSignupUsername] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [showHistory, setShowHistory] = useState(false);
+  const [showAgeVerify, setShowAgeVerify] = useState(true);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -176,165 +178,180 @@ function App() {
   return (
     <div className="app">
       <canvas ref={canvasRef} className="starry-background" />
-      <header className="header">
-        <h1 className="title">Tejas Treats</h1>
-        <p className="subtitle">Texas-Made Delta-9 Delights</p>
-        {user ? (
-          <div className="auth-section">
-            <span>Welcome, {user.username}</span>
-            <button onClick={handleLogout} className="auth-btn">Logout</button>
-          </div>
-        ) : (
-          <div className="auth-section">
-            <form onSubmit={handleLogin} className="login-form">
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                required
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button type="submit" className="auth-btn">Login</button>
-            </form>
-            <form onSubmit={handleSignup} className="signup-form">
-              <input
-                type="text"
-                value={signupUsername}
-                onChange={(e) => setSignupUsername(e.target.value)}
-                placeholder="Choose Username"
-                required
-              />
-              <input
-                type="password"
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
-                placeholder="Choose Password"
-                required
-              />
-              <button type="submit" className="auth-btn">Signup</button>
-            </form>
-          </div>
-        )}
-      </header>
-
-      <section className="landing-section">
-        <h2 className="landing-title">Welcome to Tejas Treats</h2>
-        <p className="landing-text">
-          Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. Share your stories and recipes through video and join our community celebrating Texas hemp culture.
-        </p>
-        <h2 className="landing-title">The Delta-9 Difference</h2>
-        <p className="landing-text">
-          Delta-9 THC, legal at 0.3% or less by dry weight, offers a mild, uplifting experience. Our products are crafted with care to meet federal and Texas standards, ensuring quality and compliance. Watch videos from our community to learn how Texans are incorporating delta-9 edibles into their lives, from backyard BBQs to quiet evenings under the stars.
-        </p>
-        <h2 className="landing-title">Your Taste, Your Texas</h2>
-        <p className="landing-text">
-          At Tejas Treats, we celebrate your freedom to choose. Our platform showcases real stories from folks across Texas sharing their love for hemp edibles. From pecan praline gummies to spicy chili chocolates, explore our videos, get inspired, and upload your own to show how you enjoy Tejas Treats in true Texas style.
-        </p>
-        <button className="cta-btn" onClick={() => window.location.href = 'mailto:info@tejastreats.com'}>
-          Share Your Story
-        </button>
-        <button className="cta-btn" onClick={() => setShowHistory(true)}>
-          History of Delta-9 & Hemp
-        </button>
-        <p className="landing-disclaimer">
-          Disclaimer: Tejas Treats products contain delta-9 THC at or below 0.3% by dry weight, compliant with the 2018 Farm Bill. We do not offer medical advice or diagnose conditions. Consult a healthcare professional before use. Products are for adults 21+ and not intended for resale or distribution in states where prohibited.
-        </p>
-
-        {showHistory && (
-          <div className="history-modal">
-            <div className="history-content">
-              <h2 className="history-title">Delta-9 THC & Hemp: A Texas Tale</h2>
-              <p className="history-text">
-                Hemp has deep roots in Texas, once a key crop for rope and textiles. The 2018 Farm Bill redefined hemp as cannabis with 0.3% or less delta-9 THC, removing it from the Controlled Substances Act and legalizing its cultivation nationwide. This opened the door for hemp-derived delta-9 THC edibles, like those from Tejas Treats, which comply with federal and Texas laws. From CBD oils to gummies, hemp products have surged, with Texas leading the charge in innovative, compliant edibles that honor our state's bold spirit.[](https://www.fda.gov/news-events/congressional-testimony/hemp-production-and-2018-farm-bill-07252019)[](https://guides.sll.texas.gov/cannabis/cbd)
-              </p>
-              <button className="close-btn" onClick={() => setShowHistory(false)}>
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-      </section>
-
-      <main className="main">
-        {featuredVideo && (
-          <section className="featured-section">
-            <h2 className="featured-title">Featured Video</h2>
-            <div className="featured-video">
-              <ReactPlayer
-                url={featuredVideo.fileUrl}
-                light={featuredVideo.thumbnailUrl}
-                width="100%"
-                height="400px"
-                controls
-                onStart={() => handleViewIncrement(featuredVideo._id)}
-              />
-              <h3 className="video-title">{featuredVideo.title}</h3>
-              <p className="video-description">{featuredVideo.description}</p>
-              <p className="video-uploader">Uploaded by: {featuredVideo.uploadedBy}</p>
-              <p className="video-views">Views: {featuredVideo.views || 0}</p>
-            </div>
-          </section>
-        )}
-
-        {user && (
-          <form onSubmit={handleUpload} className="upload-form">
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-              accept="video/*"
-              required
-            />
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Title"
-              required
-            />
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Description"
-              required
-            />
-            <button type="submit" className="upload-btn">Upload Video</button>
-          </form>
-        )}
-
-        <section className="video-grid">
-          {loading ? (
-            <div className="loader"></div>
-          ) : videos.length === 0 ? (
-            <p className="no-videos">No videos yet—upload some!</p>
-          ) : (
-            videos.map((video) => (
-              <div key={video._id} className="video-card">
-                <ReactPlayer
-                  url={video.fileUrl}
-                  light={video.thumbnailUrl}
-                  width="100%"
-                  height="200px"
-                  controls
-                  lazy={true}
-                  onStart={() => handleViewIncrement(video._id)}
-                />
-                <h2 className="video-title">{video.title}</h2>
-                <p className="video-description">{video.description}</p>
-                <p className="video-uploader">Uploaded by: {video.uploadedBy}</p>
-                <p className="video-views">Views: {video.views || 0}</p>
+      {!showAgeVerify ? (
+        <>
+          <header className="header">
+            <h1 className="title">Tejas Treats</h1>
+            <p className="subtitle">Texas-Made Delta-9 Delights</p>
+            {user ? (
+              <div className="auth-section">
+                <span>Welcome, {user.username}</span>
+                <button onClick={handleLogout} className="auth-btn">Logout</button>
               </div>
-            ))
-          )}
-        </section>
-      </main>
+            ) : (
+              <div className="auth-section">
+                <form onSubmit={handleLogin} className="login-form">
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Username"
+                    required
+                  />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
+                  />
+                  <button type="submit" className="auth-btn">Login</button>
+                </form>
+                <form onSubmit={handleSignup} className="signup-form">
+                  <input
+                    type="text"
+                    value={signupUsername}
+                    onChange={(e) => setSignupUsername(e.target.value)}
+                    placeholder="Choose Username"
+                    required
+                  />
+                  <input
+                    type="password"
+                    value={signupPassword}
+                    onChange={(e) => setSignupPassword(e.target.value)}
+                    placeholder="Choose Password"
+                    required
+                  />
+                  <button type="submit" className="auth-btn">Signup</button>
+                </form>
+              </div>
+            )}
+          </header>
+
+          <section className="landing-section">
+            <h2 className="landing-title">Welcome to Tejas Treats</h2>
+            <p className="landing-text">
+              Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. Share your stories and recipes through video and join our community celebrating Texas hemp culture.
+            </p>
+            <h2 className="landing-title">The Delta-9 Difference</h2>
+            <p className="landing-text">
+              Delta-9 THC, legal at 0.3% or less by dry weight, offers a mild, uplifting experience. Our products are crafted with care to meet federal and Texas standards, ensuring quality and compliance. Watch videos from our community to learn how Texans are incorporating delta-9 edibles into their lives, from backyard BBQs to quiet evenings under the stars.
+            </p>
+            <h2 className="landing-title">Your Taste, Your Texas</h2>
+            <p className="landing-text">
+              At Tejas Treats, we celebrate your freedom to choose. Our platform showcases real stories from folks across Texas sharing their love for hemp edibles. From pecan praline gummies to spicy chili chocolates, explore our videos, get inspired, and upload your own to show how you enjoy Tejas Treats in true Texas style.
+            </p>
+            <button className="cta-btn" onClick={() => window.location.href = 'mailto:info@tejastreats.com'}>
+              Share Your Story
+            </button>
+            <button className="cta-btn" onClick={() => setShowHistory(true)}>
+              History of Delta-9 & Hemp
+            </button>
+            <p className="landing-disclaimer">
+              Disclaimer: Tejas Treats products contain delta-9 THC at or below 0.3% by dry weight, compliant with the 2018 Farm Bill. We do not offer medical advice or diagnose conditions. Consult a healthcare professional before use. Products are for adults 21+ and not intended for resale or distribution in states where prohibited.
+            </p>
+
+            {showHistory && (
+              <div className="history-modal">
+                <div className="history-content">
+                  <h2 className="history-title">Delta-9 THC & Hemp: A Texas Tale</h2>
+                  <p className="history-text">
+                    Hemp has deep roots in Texas, once a key crop for rope and textiles. The 2018 Farm Bill redefined hemp as cannabis with 0.3% or less delta-9 THC, removing it from the Controlled Substances Act and legalizing its cultivation nationwide. This opened the door for hemp-derived delta-9 THC edibles, like those from Tejas Treats, which comply with federal and Texas laws. From CBD oils to gummies, hemp products have surged, with Texas leading the charge in innovative, compliant edibles that honor our state's bold spirit.[](https://www.fda.gov/news-events/congressional-testimony/hemp-production-and-2018-farm-bill-07252019)[](https://guides.sll.texas.gov/cannabis/cbd)
+                  </p>
+                  <button className="close-btn" onClick={() => setShowHistory(false)}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          <main className="main">
+            {featuredVideo && (
+              <section className="featured-section">
+                <h2 className="featured-title">Featured Video</h2>
+                <div className="featured-video">
+                  <ReactPlayer
+                    url={featuredVideo.fileUrl}
+                    light={featuredVideo.thumbnailUrl}
+                    width="100%"
+                    height="400px"
+                    controls
+                    onStart={() => handleViewIncrement(featuredVideo._id)}
+                  />
+                  <h3 className="video-title">{featuredVideo.title}</h3>
+                  <p className="video-description">{featuredVideo.description}</p>
+                  <p className="video-uploader">Uploaded by: {featuredVideo.uploadedBy}</p>
+                  <p className="video-views">Views: {featuredVideo.views || 0}</p>
+                </div>
+              </section>
+            )}
+
+            {user && (
+              <form onSubmit={handleUpload} className="upload-form">
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  accept="video/*"
+                  required
+                />
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Title"
+                  required
+                />
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Description"
+                  required
+                />
+                <button type="submit" className="upload-btn">Upload Video</button>
+              </form>
+            )}
+
+            <section className="video-grid">
+              {loading ? (
+                <div className="loader"></div>
+              ) : videos.length === 0 ? (
+                <p className="no-videos">No videos yet—upload some!</p>
+              ) : (
+                videos.map((video) => (
+                  <div key={video._id} className="video-card">
+                    <ReactPlayer
+                      url={video.fileUrl}
+                      light={video.thumbnailUrl}
+                      width="100%"
+                      height="200px"
+                      controls
+                      lazy={true}
+                      onStart={() => handleViewIncrement(video._id)}
+                    />
+                    <h2 className="video-title">{video.title}</h2>
+                    <p className="video-description">{video.description}</p>
+                    <p className="video-uploader">Uploaded by: {video.uploadedBy}</p>
+                    <p className="video-views">Views: {video.views || 0}</p>
+                  </div>
+                ))
+              )}
+            </section>
+          </main>
+        </>
+      ) : (
+        <div className="age-modal">
+          <div className="age-modal-content">
+            <h2 className="age-title">Age Verification</h2>
+            <p className="age-text">You must be 21 years or older to access this site.</p>
+            <div className="age-buttons">
+              <button className="auth-btn" onClick={() => setShowAgeVerify(false)}>Yes, I am 21+</button>
+              <button className="auth-btn" onClick={() => window.location.href = 'https://www.google.com'}>No, I'm under 21</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
