@@ -1,4 +1,3 @@
-/* App.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 body {
@@ -165,6 +164,19 @@ body {
   color: #999999;
   font-style: italic;
   margin-top: 20px;
+}
+
+.featured-products-section {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+.featured-products-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20px;
 }
 
 .product-section {
@@ -340,44 +352,6 @@ body {
   gap: 15px;
 }
 
-@media (max-width: 768px) {
-  .app {
-    padding: 15px;
-  }
-
-  .header {
-    padding: 20px 15px;
-  }
-
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .navigation {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .product-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 2rem;
-  }
-
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-}
-/* Add these styles to your App.css */
-
 /* About Section */
 .about-section {
   text-align: center;
@@ -478,4 +452,58 @@ body {
   font-size: 1.2rem;
   color: #4CAF50;
   margin: 20px 0;
+}
+
+.success-page, .cancel-page {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.success-page h2, .cancel-page h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+.success-page p, .cancel-page p {
+  font-size: 1.2rem;
+  color: #666666;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+
+  .header {
+    padding: 20px 15px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .navigation {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
 }
