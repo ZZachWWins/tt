@@ -376,3 +376,106 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* Add these styles to your App.css */
+
+/* About Section */
+.about-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f9f9f9;
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+.about-text {
+  font-size: 1.2rem;
+  color: #666666;
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+/* Contact Section */
+.contact-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f9f9f9;
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+.contact-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+.contact-text {
+  font-size: 1.2rem;
+  color: #666666;
+  margin: 0 0 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #333333;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border: 1px solid #FF1493;
+}
+
+.form-group textarea {
+  height: 150px;
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  background: linear-gradient(45deg, #FF1493, #DC143C);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+}
+
+.success-message {
+  font-size: 1.2rem;
+  color: #4CAF50;
+  margin: 20px 0;
+}
