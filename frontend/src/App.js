@@ -1,6 +1,9 @@
 // App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import './App.css';
+
+const stripePromise = loadStripe('pk_test_your_publishable_key_here'); // Replace with your Stripe publishable key
 
 function App() {
   const [user, setUser] = useState(null);
@@ -18,35 +21,35 @@ function App() {
       id: 1,
       name: 'Pecan Praline Delta-9 Gummies',
       price: 25.99,
-      description: 'Delicious pecan praline flavored gummies infused with hemp-derived delta-9 THC.',
+      description: 'Delicious pecan praline flavored gummies infused with hemp-derived delta-9 THC. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Pecan+Gummies'
     },
     {
       id: 2,
       name: 'Spicy Chili Chocolate Bars',
       price: 19.99,
-      description: 'Rich chocolate bars with a spicy chili kick, containing compliant delta-9 THC.',
+      description: 'Rich chocolate bars with a spicy chili kick, containing compliant delta-9 THC. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Chili+Chocolate'
     },
     {
       id: 3,
       name: 'Blueberry Bliss Tincture',
       price: 34.99,
-      description: 'Hemp-derived delta-9 tincture with natural blueberry flavor for relaxation.',
+      description: 'Hemp-derived delta-9 tincture with natural blueberry flavor for relaxation. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Blueberry+Tincture'
     },
     {
       id: 4,
       name: 'Texas Tea Infused Beverages',
       price: 15.99,
-      description: 'Refreshing tea beverages infused with delta-9 THC, Texas style.',
+      description: 'Refreshing tea beverages infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Texas+Tea'
     }
   ];
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Mock login
+    // Mock login - replace with real auth if needed
     setUser({ username });
     setUsername('');
     setPassword('');
@@ -54,7 +57,7 @@ function App() {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    // Mock signup
+    // Mock signup - replace with real auth if needed
     alert('Signup successful! Please log in.');
     setSignupUsername('');
     setSignupPassword('');
@@ -66,6 +69,27 @@ function App() {
 
   const addToCart = (product) => {
     setCart([...cart, product]);
+  };
+
+  const handleCheckout = async () => {
+    const stripe = await stripePromise;
+    const response = await fetch('/.netlify/functions/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items: cart }),
+    });
+
+    const session = await response.json();
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.error(result.error.message);
+    }
   };
 
   return (
@@ -132,13 +156,13 @@ function App() {
           <section className="landing-section" id="home">
             <h2 className="landing-title">Welcome to Tejas Treats</h2>
             <p className="landing-text">
-              Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite.
+              Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week!
             </p>
             <button className="cta-btn" onClick={() => setShowHistory(true)}>
               History of Delta-9 & Hemp
             </button>
             <p className="landing-disclaimer">
-              Disclaimer: Products for adults 21+. Consult a healthcare professional before use.
+              Disclaimer: Tejas Treats products contain delta-9 THC at or below 0.3% by dry weight, compliant with the 2018 Farm Bill. We do not offer medical advice or diagnose conditions. Consult a healthcare professional before use. Products are for adults 21+ and not intended for resale or distribution in states where prohibited.
             </p>
           </section>
 
@@ -162,7 +186,7 @@ function App() {
               <div className="history-content">
                 <h2 className="history-title">Delta-9 THC & Hemp: A Texas Tale</h2>
                 <p className="history-text">
-                  Hemp has deep roots in Texas... (abbreviated)
+                  Hemp has deep roots in Texas, once a key crop for rope and textiles. The 2018 Farm Bill redefined hemp as cannabis with 0.3% or less delta-9 THC, removing it from the Controlled Substances Act and legalizing its cultivation nationwide. This opened the door for hemp-derived delta-9 THC edibles, like those from Tejas Treats, which comply with federal and Texas laws. From CBD oils to gummies, hemp products have surged, with Texas leading the charge in innovative, compliant edibles that honor our state's bold spirit.
                 </p>
                 <button className="close-btn" onClick={() => setShowHistory(false)}>
                   Close
@@ -178,11 +202,15 @@ function App() {
                 {cart.length === 0 ? (
                   <p>Your cart is empty.</p>
                 ) : (
-                  <ul>
-                    {cart.map((item, index) => (
-                      <li key={index}>{item.name} - ${item.price.toFixed(2)}</li>
-                    ))}
-                  </ul>
+                  <>
+                    <ul>
+                      {cart.map((item, index) => (
+                        <li key={index}>{item.name} - ${item.price.toFixed(2)}</li>
+                      ))}
+                    </ul>
+                    <p>Total: ${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)}</p>
+                    <button onClick={handleCheckout} className="checkout-btn">Checkout (Pre-order)</button>
+                  </>
                 )}
                 <button className="close-btn" onClick={() => setShowCart(false)}>
                   Close

@@ -282,7 +282,7 @@ body {
   margin-bottom: 20px;
 }
 
-.close-btn {
+.close-btn, .checkout-btn {
   padding: 10px 20px;
   background: linear-gradient(45deg, #FF1493, #DC143C);
   color: #ffffff;
@@ -291,9 +291,10 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s;
+  margin: 10px;
 }
 
-.close-btn:hover {
+.close-btn:hover, .checkout-btn:hover {
   transform: translateY(-3px);
 }
 
