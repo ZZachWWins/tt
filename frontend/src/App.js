@@ -1,6 +1,9 @@
 // App.js
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import './App.css';
 
 const stripePromise = loadStripe('pk_test_your_publishable_key_here'); // Replace with your Stripe publishable key
@@ -92,18 +95,64 @@ function App() {
     }
   };
 
+  const Landing = () => (
+    <section className="landing-section">
+      <h2 className="landing-title">Welcome to Tejas Treats</h2>
+      <p className="landing-text">
+        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week!
+      </p>
+      <button className="cta-btn" onClick={() => setShowHistory(true)}>
+        History of Delta-9 & Hemp
+      </button>
+      <p className="landing-disclaimer">
+        Disclaimer: Tejas Treats products contain delta-9 THC at or below 0.3% by dry weight, compliant with the 2018 Farm Bill. We do not offer medical advice or diagnose conditions. Consult a healthcare professional before use. Products are for adults 21+ and not intended for resale or distribution in states where prohibited.
+      </p>
+    </section>
+  );
+
+  const Shop = () => (
+    <section className="product-section">
+      <h2 className="product-title">Our Products</h2>
+      <div className="product-grid">
+        {products.map((product) => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} className="product-image" />
+            <h3 className="product-name">{product.name}</h3>
+            <p className="product-description">{product.description}</p>
+            <p className="product-price">${product.price.toFixed(2)}</p>
+            <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+
+  const Success = () => (
+    <div className="success-page">
+      <h2>Thank you for your pre-order!</h2>
+      <p>Your order will ship next week. We'll email you with details.</p>
+    </div>
+  );
+
+  const Cancel = () => (
+    <div className="cancel-page">
+      <h2>Checkout Cancelled</h2>
+      <p>You can continue shopping or contact us if you have questions.</p>
+    </div>
+  );
+
   return (
     <div className="app">
       {!showAgeVerify ? (
-        <>
+        <Router>
           <header className="header">
             <h1 className="title">Tejas Treats</h1>
             <p className="subtitle">Texas-Made Delta-9 Delights</p>
             <nav className="navigation">
-              <a href="#home">Home</a>
-              <a href="#shop">Shop</a>
-              <a href="#about">About</a>
-              <a href="#contact">Contact</a>
+              <Link to="/">Home</Link>
+              <Link to="/shop">Shop</Link>
+              <Link to="/about">About</Link>
+              <Link to="/contact">Contact</Link>
               <button onClick={() => setShowCart(true)} className="cart-btn">
                 Cart ({cart.length})
               </button>
@@ -153,33 +202,14 @@ function App() {
             )}
           </header>
 
-          <section className="landing-section" id="home">
-            <h2 className="landing-title">Welcome to Tejas Treats</h2>
-            <p className="landing-text">
-              Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week!
-            </p>
-            <button className="cta-btn" onClick={() => setShowHistory(true)}>
-              History of Delta-9 & Hemp
-            </button>
-            <p className="landing-disclaimer">
-              Disclaimer: Tejas Treats products contain delta-9 THC at or below 0.3% by dry weight, compliant with the 2018 Farm Bill. We do not offer medical advice or diagnose conditions. Consult a healthcare professional before use. Products are for adults 21+ and not intended for resale or distribution in states where prohibited.
-            </p>
-          </section>
-
-          <section className="product-section" id="shop">
-            <h2 className="product-title">Our Products</h2>
-            <div className="product-grid">
-              {products.map((product) => (
-                <div key={product.id} className="product-card">
-                  <img src={product.image} alt={product.name} className="product-image" />
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
-                  <p className="product-price">${product.price.toFixed(2)}</p>
-                  <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
-                </div>
-              ))}
-            </div>
-          </section>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/cancel" element={<Cancel />} />
+          </Routes>
 
           {showHistory && (
             <div className="history-modal">
@@ -218,7 +248,7 @@ function App() {
               </div>
             </div>
           )}
-        </>
+        </Router>
       ) : (
         <div className="age-modal">
           <div className="age-modal-content">
