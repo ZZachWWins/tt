@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import About from './pages/About';
-import Contact from './pages/Contact';
+import About from './About.js';
+import Contact from './Contact.js';
 import './App.css';
 
 const stripePromise = loadStripe('pk_test_your_publishable_key_here'); // Replace with your Stripe publishable key
