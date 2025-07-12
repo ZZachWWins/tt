@@ -22,31 +22,38 @@ function App() {
   const products = [
     {
       id: 1,
-      name: 'Pecan Praline Delta-9 Gummies',
-      price: 25.99,
-      description: 'Delicious pecan praline flavored gummies infused with hemp-derived delta-9 THC. Pre-order: Ships next week.',
+      name: 'Red Velvet Delta-9 Cupcake - 300mg of Delta-9 THC',
+      price: 39.99,
+      description: 'Our strongest bacth, Delicious red velvet flavored muffins infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week. TEXAS SIZED!',
       image: 'https://via.placeholder.com/300x300?text=Pecan+Gummies'
     },
     {
       id: 2,
-      name: 'Spicy Chili Chocolate Bars',
+      name: 'Sweet Delight Chocolate Bar - 150 mg of Delta-9 THC',
       price: 19.99,
-      description: 'Rich chocolate bars with a spicy chili kick, containing compliant delta-9 THC. Pre-order: Ships next week.',
+      description: 'Rich chocolate bars with a texas size, containing compliant delta-9 THC. Our Number One. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Chili+Chocolate'
     },
     {
       id: 3,
-      name: 'Blueberry Bliss Tincture',
-      price: 34.99,
-      description: 'Hemp-derived delta-9 tincture with natural blueberry flavor for relaxation. Pre-order: Ships next week.',
+      name: 'Blueberry Bliss Muffin w 150 mg of Delta-9 THC',
+      price: 19.99,
+      description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Blueberry+Tincture'
     },
     {
       id: 4,
-      name: 'Texas Tea Infused Beverages',
-      price: 15.99,
-      description: 'Refreshing tea beverages infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
+      name: 'Infused Cinnamon Coffee Cake - 150 mg of Delta-9 THC',
+      price: 19.99,
+      description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Texas+Tea'
+    },
+    {
+      id: 5,
+      name: 'Iced Chocolate Cupcake - 150 mg of Delta-9 THC',
+      price: 19.99,
+      description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
+      image: 'https://via.placeholder.com/300x300?text=Blueberry+Tincture'
     }
   ];
 
@@ -101,7 +108,7 @@ function App() {
     <section className="landing-section">
       <h2 className="landing-title">Welcome to Tejas Treats</h2>
       <p className="landing-text">
-        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week!
+        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE to ONE RATIO of CBD to THC. 
       </p>
       <div className="featured-products-section">
         <h2 className="featured-products-title">Featured Products</h2>
