@@ -6,7 +6,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import './App.css';
 
-const stripePromise = loadStripe('pk_test_your_publishable_key_here'); // Replace with your Stripe publishable key
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY); // Replace with your Stripe publishable key
 
 function App() {
   const [user, setUser] = useState(null);
