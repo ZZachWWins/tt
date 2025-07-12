@@ -36,7 +36,7 @@ function App() {
     },
     {
       id: 3,
-      name: 'Blueberry Bliss Muffin w 150 mg of Delta-9 THC',
+      name: 'Blueberry Bliss Muffin - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
       image: 'https://via.placeholder.com/300x300?text=Blueberry+Tincture'
