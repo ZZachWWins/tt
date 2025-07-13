@@ -175,6 +175,21 @@ function App() {
     </section>
   );
 
+  const Hemp101 = () => (
+    <section className="product-section">
+      <h2 className="product-title">Hemp 101: Legal Delta-9 Edibles</h2>
+      <p className="landing-text">
+        At Tejas Treats, our edibles deliver the same Delta-9 THC experience as those found in recreational cannabis states, but with a key difference: they're derived from hemp and fully compliant with the 2018 Farm Bill. This federal legislation legalizes hemp products containing no more than 0.3% Delta-9 THC by dry weight, making our treats shippable to all 50 states—unlike state-restricted cannabis.
+      </p>
+      <p className="landing-text">
+        Our formulations often pack a stronger punch per serving because we maximize the allowable THC concentration within the dry weight limit, combined with full-spectrum cannabinoids like CBD, CBG, and CBN for enhanced effects via the entourage effect. This means you get potent, consistent results without the legal hurdles of traditional cannabis edibles.
+      </p>
+      <p className="landing-text">
+        Whether you're seeking relaxation, energy, or focus, our hemp-derived Delta-9 edibles provide a legal, accessible alternative that's just as effective—if not more so—for many users. Always consult local laws and a healthcare professional before use.
+      </p>
+    </section>
+  );
+
   const Success = () => (
     <div className="success-page">
       <h2>Thank you for your pre-order!</h2>
@@ -206,7 +221,7 @@ function App() {
               </Link>
               <div className="nav-right" style={{ display: 'flex', gap: '20px' }}>
                 <Link to="/about">FAQs</Link>
-                <Link to="/about">HEMP 101</Link>
+                <Link to="/hemp101">HEMP 101</Link>
                 <Link to="/contact">GET IN TOUCH</Link>
                 <button onClick={() => setShowCart(true)} className="cart-btn">
                   Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
@@ -221,6 +236,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/product-finder" element={<EndocannabinoidSystem />} />
+            <Route path="/hemp101" element={<Hemp101 />} />
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
           </Routes>
