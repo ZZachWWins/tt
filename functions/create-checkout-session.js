@@ -15,7 +15,7 @@ exports.handler = async (event) => {
         },
         unit_amount: Math.round(item.price * 100), // Convert price to cents
       },
-      quantity: 1, // Assumes one per add; aggregate if needed (see notes below)
+      quantity: item.quantity || 1, // Use quantity from cart item
     }));
 
     // Create the checkout session
@@ -25,6 +25,11 @@ exports.handler = async (event) => {
       mode: 'payment',
       success_url: `${process.env.URL}/success`, // Use Netlify site URL env for production
       cancel_url: `${process.env.URL}/cancel`,
+      shipping_address_collection: {
+        allowed_countries: ['US'], // Add more countries if you ship internationally, e.g., ['US', 'CA']
+      },
+      // Optional: Collect billing address too (set to 'required' to force collection)
+      billing_address_collection: 'auto', // Or 'required' if needed; 'auto' collects only if necessary (e.g., for taxes)
     });
 
     return {

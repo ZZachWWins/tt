@@ -80,7 +80,14 @@ function App() {
   };
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    const existingItem = cart.find((item) => item.id === product.id);
+    if (existingItem) {
+      setCart(cart.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      ));
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
   };
 
   const handleCheckout = async () => {
@@ -177,7 +184,7 @@ function App() {
               <Link to="/about">About</Link>
               <Link to="/contact">Contact</Link>
               <button onClick={() => setShowCart(true)} className="cart-btn">
-                Cart ({cart.length})
+                Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
               </button>
             </nav>
             {user ? (
@@ -258,10 +265,12 @@ function App() {
                   <>
                     <ul>
                       {cart.map((item, index) => (
-                        <li key={index}>{item.name} - ${item.price.toFixed(2)}</li>
+                        <li key={index}>
+                          {item.name} (x{item.quantity}) - ${ (item.price * item.quantity).toFixed(2) }
+                        </li>
                       ))}
                     </ul>
-                    <p>Total: ${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)}</p>
+                    <p>Total: ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</p>
                     <button onClick={handleCheckout} className="checkout-btn">Checkout (Pre-order)</button>
                   </>
                 )}
