@@ -154,14 +154,14 @@ function App() {
         <Router>
           <header className="header">
             <div className="shipping-banner">Free Shipping & Handling on Orders over $75</div>
-            <nav className="navigation">
+            <nav className="navigation" style={{ justifyContent: 'space-between', width: '100%' }}>
               <div className="nav-left">
                 <Link to="/">HOME</Link>
                 <Link to="/shop">SHOP</Link>
                 <Link to="/shop">PRODUCT FINDER</Link>
               </div>
               <Link to="/">
-                <img src={logo} alt="Tejas Treats" className="logo" style={{ width: '50px', height: 'auto' }} />
+                <img src={logo} alt="Tejas Treats" className="logo" style={{ width: '150px', height: 'auto' }} />
               </Link>
               <div className="nav-right">
                 <Link to="/about">FAQs</Link>
