@@ -158,6 +158,23 @@ function App() {
     </section>
   );
 
+  const Shop = () => (
+    <section className="product-section">
+      <h2 className="product-title">Our Products</h2>
+      <div className="product-grid">
+        {products.map((product) => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} className="product-image" />
+            <h3 className="product-name">{product.name}</h3>
+            <p className="product-description">{product.description}</p>
+            <p className="product-price">${product.price.toFixed(2)}</p>
+            <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+
   const Success = () => (
     <div className="success-page">
       <h2>Thank you for your pre-order!</h2>
@@ -182,7 +199,7 @@ function App() {
               <div className="nav-left" style={{ display: 'flex', gap: '20px' }}>
                 <Link to="/">HOME</Link>
                 <Link to="/shop">SHOP</Link>
-                <Link to="/endocannabinoid">Endocannabinoid System</Link>
+                <Link to="/product-finder">PRODUCT FINDER</Link>
               </div>
               <Link to="/">
                 <img src={logo} alt="Tejas Treats" className="logo" style={{ width: '150px', height: 'auto' }} />
@@ -203,7 +220,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/endocannabinoid" element={<EndocannabinoidSystem />} />
+            <Route path="/product-finder" element={<EndocannabinoidSystem />} />
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
           </Routes>
