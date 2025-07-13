@@ -8,7 +8,7 @@ import './App.css';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY); // Replace with your Stripe publishable key
 
-const logo = 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752428751/logoyes_arhdh7.png';
+const logo = 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752426950/transtt_cvuwz6.png';
 
 function App() {
   const [showHistory, setShowHistory] = useState(false);
@@ -155,7 +155,7 @@ function App() {
           <header className="header">
             <div className="shipping-banner">Free Shipping & Handling on Orders over $75</div>
             <nav className="navigation" style={{ justifyContent: 'space-between', width: '100%' }}>
-              <div className="nav-left">
+              <div className="nav-left" style={{ display: 'flex', gap: '20px' }}>
                 <Link to="/">HOME</Link>
                 <Link to="/shop">SHOP</Link>
                 <Link to="/shop">PRODUCT FINDER</Link>
@@ -163,7 +163,7 @@ function App() {
               <Link to="/">
                 <img src={logo} alt="Tejas Treats" className="logo" style={{ width: '150px', height: 'auto' }} />
               </Link>
-              <div className="nav-right">
+              <div className="nav-right" style={{ display: 'flex', gap: '20px' }}>
                 <Link to="/about">FAQs</Link>
                 <Link to="/about">HEMP 101</Link>
                 <Link to="/contact">GET IN TOUCH</Link>
