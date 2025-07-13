@@ -86,6 +86,17 @@ function App() {
     setCart(cart.filter((item) => item.id !== productId));
   };
 
+  const updateQuantity = (productId, delta) => {
+    setCart(cart.map((item) =>
+      item.id === productId ? { ...item, quantity: Math.max(0, item.quantity + delta) } : item
+    ).filter((item) => item.quantity > 0));
+  };
+
+  const getCartQuantity = (productId) => {
+    const item = cart.find((item) => item.id === productId);
+    return item ? item.quantity : 0;
+  };
+
   const handleCheckout = async () => {
     const stripe = await stripePromise;
     const response = await fetch('/.netlify/functions/create-checkout-session', {
@@ -123,6 +134,9 @@ function App() {
             <p><strong>Cannabinoids:</strong> {product.cannabinoids.join(', ')}</p>
             <p><strong>Terpenes:</strong> {product.terpenes.join(', ')}</p>
             <p className="product-price">${product.price.toFixed(2)}</p>
+            {getCartQuantity(product.id) > 0 && (
+              <p className="cart-quantity">In cart: {getCartQuantity(product.id)}</p>
+            )}
             <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
           </div>
         ))}
@@ -148,6 +162,9 @@ function App() {
               <h3 className="product-name">{product.name}</h3>
               <p className="product-description">{product.description}</p>
               <p className="product-price">${product.price.toFixed(2)}</p>
+              {getCartQuantity(product.id) > 0 && (
+                <p className="cart-quantity">In cart: {getCartQuantity(product.id)}</p>
+              )}
               <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
             </div>
           ))}
@@ -172,6 +189,9 @@ function App() {
             <h3 className="product-name">{product.name}</h3>
             <p className="product-description">{product.description}</p>
             <p className="product-price">${product.price.toFixed(2)}</p>
+            {getCartQuantity(product.id) > 0 && (
+              <p className="cart-quantity">In cart: {getCartQuantity(product.id)}</p>
+            )}
             <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
           </div>
         ))}
@@ -269,9 +289,13 @@ function App() {
                   <>
                     <ul>
                       {cart.map((item, index) => (
-                        <li key={index}>
-                          {item.name} (x{item.quantity}) - ${(item.price * item.quantity).toFixed(2)}
-                          <button onClick={() => removeFromCart(item.id)} className="remove-icon">×</button>
+                        <li key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <span>{item.name} (x{item.quantity}) - ${(item.price * item.quantity).toFixed(2)}</span>
+                          <div>
+                            <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                            <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                            <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                          </div>
                         </li>
                       ))}
                     </ul>
