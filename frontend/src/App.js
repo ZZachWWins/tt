@@ -161,7 +161,7 @@ function App() {
                 <Link to="/shop">PRODUCT FINDER</Link>
               </div>
               <Link to="/">
-                <img src={logo} alt="Tejas Treats" className="logo" />
+                <img src={logo} alt="Tejas Treats" className="logo" style={{ width: '50px', height: 'auto' }} />
               </Link>
               <div className="nav-right">
                 <Link to="/about">FAQs</Link>
