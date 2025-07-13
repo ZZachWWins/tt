@@ -8,12 +8,9 @@ import './App.css';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY); // Replace with your Stripe publishable key
 
+const logo = 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752426950/transtt_cvuwz6.png';
+
 function App() {
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [signupUsername, setSignupUsername] = useState('');
-  const [signupPassword, setSignupPassword] = useState('');
   const [showHistory, setShowHistory] = useState(false);
   const [showAgeVerify, setShowAgeVerify] = useState(true);
   const [cart, setCart] = useState([]);
@@ -58,26 +55,6 @@ function App() {
   ];
 
   const featuredProducts = [products[0], products[1]]; // Select first two products for Featured section
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Mock login - replace with real auth if needed
-    setUser({ username });
-    setUsername('');
-    setPassword('');
-  };
-
-  const handleSignup = (e) => {
-    e.preventDefault();
-    // Mock signup - replace with real auth if needed
-    alert('Signup successful! Please log in.');
-    setSignupUsername('');
-    setSignupPassword('');
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-  };
 
   const addToCart = (product) => {
     const existingItem = cart.find((item) => item.id === product.id);
@@ -176,60 +153,19 @@ function App() {
       {!showAgeVerify ? (
         <Router>
           <header className="header">
-            <h1 className="title">Tejas Treats</h1>
+            <img src={logo} alt="Tejas Treats" className="title" />
             <p className="subtitle">Texas-Made Delta-9 Delights</p>
+            <div className="shipping-banner">Free Shipping & Handling on Orders over $75</div>
             <nav className="navigation">
-              <Link to="/">Home</Link>
-              <Link to="/shop">Shop</Link>
-              <Link to="/about">About</Link>
-              <Link to="/contact">Contact</Link>
+              <Link to="/shop">SHOP</Link>
+              <Link to="/shop">PRODUCT FINDER</Link>
+              <Link to="/about">FAQs</Link>
+              <Link to="/about">HEMP 101</Link>
+              <Link to="/contact">GET IN TOUCH</Link>
               <button onClick={() => setShowCart(true)} className="cart-btn">
                 Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
               </button>
             </nav>
-            {user ? (
-              <div className="auth-section">
-                <span>Welcome, {user.username}</span>
-                <button onClick={handleLogout} className="auth-btn">Logout</button>
-              </div>
-            ) : (
-              <div className="auth-section">
-                <form onSubmit={handleLogin} className="login-form">
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Username"
-                    required
-                  />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    required
-                  />
-                  <button type="submit" className="auth-btn">Login</button>
-                </form>
-                <form onSubmit={handleSignup} className="signup-form">
-                  <input
-                    type="text"
-                    value={signupUsername}
-                    onChange={(e) => setSignupUsername(e.target.value)}
-                    placeholder="Choose Username"
-                    required
-                  />
-                  <input
-                    type="password"
-                    value={signupPassword}
-                    onChange={(e) => setSignupPassword(e.target.value)}
-                    placeholder="Choose Password"
-                    required
-                  />
-                  <button type="submit" className="auth-btn">Signup</button>
-                </form>
-              </div>
-            )}
           </header>
 
           <Routes>
