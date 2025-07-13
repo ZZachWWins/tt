@@ -8,7 +8,7 @@ import './App.css';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY); // Replace with your Stripe publishable key
 
-const logo = 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752426950/transtt_cvuwz6.png';
+const logo = 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752428751/logoyes_arhdh7.png';
 
 function App() {
   const [showHistory, setShowHistory] = useState(false);
