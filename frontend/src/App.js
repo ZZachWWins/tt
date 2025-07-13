@@ -21,36 +21,51 @@ function App() {
       id: 1,
       name: 'Red Velvet Delta-9 Cupcake - 300mg of Delta-9 THC',
       price: 39.99,
-      description: 'Our strongest bacth, Delicious red velvet flavored muffins infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week. TEXAS SIZED!',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425778/Super-Moist-Red-Velvet-Cupcakes_ldrr4g.jpg'
+      description: 'Our strongest batch, Delicious red velvet flavored muffins infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week. TEXAS SIZED!',
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425778/Super-Moist-Red-Velvet-Cupcakes_ldrr4g.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBD'],
+      terpenes: ['Myrcene', 'Limonene'],
+      effect: 'Balanced Relaxation'
     },
     {
       id: 2,
       name: 'Sweet Delight Chocolate Bar - 150 mg of Delta-9 THC',
       price: 19.99,
-      description: 'Rich chocolate bars with a texas size, containing compliant delta-9 THC. Our Number One. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425834/stack-chocolate_pf62bq.jpg'
+      description: 'Rich chocolate bars with a Texas size, containing compliant delta-9 THC. Our Number One. Pre-order: Ships next week.',
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425834/stack-chocolate_pf62bq.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBN'],
+      terpenes: ['Myrcene', 'Linalool'],
+      effect: 'Sleepy'
     },
     {
       id: 3,
       name: 'Blueberry Bliss Muffin - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425729/blueberry-muffins-square-35-720x720_1_e9pohw.jpg'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425729/blueberry-muffins-square-35-720x720_1_e9pohw.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBD'],
+      terpenes: ['Pinene', 'Terpinolene'],
+      effect: 'Calm Focus'
     },
     {
       id: 4,
       name: 'Infused Cinnamon Coffee Cake - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425905/Coffee-Cake-Muffins-2023-Square_ic7yoa.webp'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425905/Coffee-Cake-Muffins-2023-Square_ic7yoa.webp',
+      cannabinoids: ['Delta-9 THC', 'CBG'],
+      terpenes: ['Humulene', 'Caryophyllene'],
+      effect: 'Energetic'
     },
     {
       id: 5,
       name: 'Iced Chocolate Cupcake - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425908/choc-cupcake-2_coelak.jpg'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425908/choc-cupcake-2_coelak.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBC'],
+      terpenes: ['Limonene', 'Pinene'],
+      effect: 'Uplifted Mood'
     }
   ];
 
@@ -88,11 +103,37 @@ function App() {
     }
   };
 
+  const EndocannabinoidSystem = () => (
+    <section className="product-section">
+      <h2 className="product-title">Endocannabinoid System & Tejas Treats</h2>
+      <p className="landing-text">
+        The endocannabinoid system (ECS) is your body’s natural regulator, influencing mood, sleep, pain, and energy. At Tejas Treats, we craft hemp-derived edibles with a full spectrum of cannabinoids and tailored terpene blends to support your ECS and enhance specific effects. Explore how our products align with your needs:
+      </p>
+      <div className="product-grid">
+        {products.map((product) => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} className="product-image" />
+            <h3 className="product-name">{product.name}</h3>
+            <p className="product-description">{product.description}</p>
+            <p><strong>Effect:</strong> {product.effect}</p>
+            <p><strong>Cannabinoids:</strong> {product.cannabinoids.join(', ')}</p>
+            <p><strong>Terpenes:</strong> {product.terpenes.join(', ')}</p>
+            <p className="product-price">${product.price.toFixed(2)}</p>
+            <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
+          </div>
+        ))}
+      </div>
+      <p className="landing-text">
+        Each product is designed to interact with your ECS, offering effects like relaxation with Myrcene and CBN, or energy with CBG and Humulene. Pre-order now—shipping starts next week!
+      </p>
+    </section>
+  );
+
   const Landing = () => (
     <section className="landing-section">
       <h2 className="landing-title">Welcome to Tejas Treats</h2>
       <p className="landing-text">
-        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE to ONE RATIO of CBD to THC. 
+        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE TO ONE RATIO OF CBD TO THC. 
       </p>
       <div className="featured-products-section">
         <h2 className="featured-products-title">Featured Products</h2>
@@ -114,23 +155,6 @@ function App() {
       <p className="landing-disclaimer">
         Disclaimer: Tejas Treats products contain delta-9 THC at or below 0.3% by dry weight, compliant with the 2018 Farm Bill. We do not offer medical advice or diagnose conditions. Consult a healthcare professional before use. Products are for adults 21+ and not intended for resale or distribution in states where prohibited.
       </p>
-    </section>
-  );
-
-  const Shop = () => (
-    <section className="product-section">
-      <h2 className="product-title">Our Products</h2>
-      <div className="product-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} className="product-image" />
-            <h3 className="product-name">{product.name}</h3>
-            <p className="product-description">{product.description}</p>
-            <p className="product-price">${product.price.toFixed(2)}</p>
-            <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
-          </div>
-        ))}
-      </div>
     </section>
   );
 
@@ -158,7 +182,7 @@ function App() {
               <div className="nav-left" style={{ display: 'flex', gap: '20px' }}>
                 <Link to="/">HOME</Link>
                 <Link to="/shop">SHOP</Link>
-                <Link to="/shop">PRODUCT FINDER</Link>
+                <Link to="/endocannabinoid">Endocannabinoid System</Link>
               </div>
               <Link to="/">
                 <img src={logo} alt="Tejas Treats" className="logo" style={{ width: '150px', height: 'auto' }} />
@@ -179,6 +203,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/endocannabinoid" element={<EndocannabinoidSystem />} />
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
           </Routes>
