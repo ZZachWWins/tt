@@ -25,35 +25,35 @@ function App() {
       name: 'Red Velvet Delta-9 Cupcake - 300mg of Delta-9 THC',
       price: 39.99,
       description: 'Our strongest bacth, Delicious red velvet flavored muffins infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week. TEXAS SIZED!',
-      image: 'https://via.placeholder.com/300x300?text=Pecan+Gummies'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425778/Super-Moist-Red-Velvet-Cupcakes_ldrr4g.jpg'
     },
     {
       id: 2,
       name: 'Sweet Delight Chocolate Bar - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Rich chocolate bars with a texas size, containing compliant delta-9 THC. Our Number One. Pre-order: Ships next week.',
-      image: 'https://via.placeholder.com/300x300?text=Chili+Chocolate'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425834/stack-chocolate_pf62bq.jpg'
     },
     {
       id: 3,
       name: 'Blueberry Bliss Muffin - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
-      image: 'https://via.placeholder.com/300x300?text=Blueberry+Tincture'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425729/blueberry-muffins-square-35-720x720_1_e9pohw.jpg'
     },
     {
       id: 4,
       name: 'Infused Cinnamon Coffee Cake - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
-      image: 'https://via.placeholder.com/300x300?text=Texas+Tea'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425905/Coffee-Cake-Muffins-2023-Square_ic7yoa.webp'
     },
     {
       id: 5,
       name: 'Iced Chocolate Cupcake - 150 mg of Delta-9 THC',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
-      image: 'https://via.placeholder.com/300x300?text=Blueberry+Tincture'
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425908/choc-cupcake-2_coelak.jpg'
     }
   ];
 
