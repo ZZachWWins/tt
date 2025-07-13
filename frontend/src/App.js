@@ -153,18 +153,24 @@ function App() {
       {!showAgeVerify ? (
         <Router>
           <header className="header">
-            <img src={logo} alt="Tejas Treats" className="title" />
-            <p className="subtitle">Texas-Made Delta-9 Delights</p>
             <div className="shipping-banner">Free Shipping & Handling on Orders over $75</div>
             <nav className="navigation">
-              <Link to="/shop">SHOP</Link>
-              <Link to="/shop">PRODUCT FINDER</Link>
-              <Link to="/about">FAQs</Link>
-              <Link to="/about">HEMP 101</Link>
-              <Link to="/contact">GET IN TOUCH</Link>
-              <button onClick={() => setShowCart(true)} className="cart-btn">
-                Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
-              </button>
+              <div className="nav-left">
+                <Link to="/">HOME</Link>
+                <Link to="/shop">SHOP</Link>
+                <Link to="/shop">PRODUCT FINDER</Link>
+              </div>
+              <Link to="/">
+                <img src={logo} alt="Tejas Treats" className="logo" />
+              </Link>
+              <div className="nav-right">
+                <Link to="/about">FAQs</Link>
+                <Link to="/about">HEMP 101</Link>
+                <Link to="/contact">GET IN TOUCH</Link>
+                <button onClick={() => setShowCart(true)} className="cart-btn">
+                  Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
+                </button>
+              </div>
             </nav>
           </header>
 
