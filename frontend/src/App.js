@@ -66,6 +66,16 @@ function App() {
       cannabinoids: ['Delta-9 THC', 'CBC'],
       terpenes: ['Limonene', 'Pinene'],
       effect: 'Uplifted Mood'
+    },
+    {
+      id: 6,
+      name: 'Infused Tincture, Create / Energy 150 mg THC | 150 mg of CBD',
+      price: 39.99,
+      description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBG', 'CBD'],
+      terpenes: ['Humulene', 'Caryophyllene'],
+      effect: 'Energetic & Happy'
     }
   ];
 
