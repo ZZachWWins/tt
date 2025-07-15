@@ -69,13 +69,43 @@ function App() {
     },
     {
       id: 6,
-      name: 'Infused Tincture, Create / Energy 150 mg THC | 150 mg of CBD',
+      name: 'Infused Tincture, Sleep 150 mg THC | 150 mg of CBD',
       price: 39.99,
-      description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
+      description: 'Hemp-derived tincture designed for better sleep, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBN', 'CBD'],
+      terpenes: ['Myrcene', 'Linalool', 'Nerolidol'],
+      effect: 'Deep Sleep'
+    },
+    {
+      id: 7,
+      name: 'Infused Tincture, Energize 150 mg THC | 150 mg of CBD',
+      price: 39.99,
+      description: 'Hemp-derived tincture for an energy boost, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
       cannabinoids: ['Delta-9 THC', 'CBG', 'CBD'],
-      terpenes: ['Humulene', 'Caryophyllene'],
-      effect: 'Energetic & Happy'
+      terpenes: ['Pinene', 'Limonene', 'Terpinolene'],
+      effect: 'Energized'
+    },
+    {
+      id: 8,
+      name: 'Infused Tincture, Social 150 mg THC | 150 mg of CBD',
+      price: 39.99,
+      description: 'Hemp-derived tincture to enhance social interactions, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBC', 'CBD'],
+      terpenes: ['Limonene', 'Linalool', 'Beta-Caryophyllene'],
+      effect: 'Social & Relaxed'
+    },
+    {
+      id: 9,
+      name: 'Infused Tincture, Creative 150 mg THC | 150 mg of CBD',
+      price: 39.99,
+      description: 'Hemp-derived tincture to spark creativity, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
+      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBG', 'CBD'],
+      terpenes: ['Alpha-Pinene', 'Limonene', 'Ocimene'],
+      effect: 'Creative Focus'
     }
   ];
 
