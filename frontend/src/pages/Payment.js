@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card } from '@square/web-sdk';
+import { SquareProvider, Card } from 'react-square-web-payments-sdk';
 import '../App.css';
 
 const Payment = ({ cart, onSuccess, onCancel }) => {
@@ -8,7 +8,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
-  const handlePayment = async (nonce) => {
+  const handlePayment = async (token) => {
     setProcessing(true);
     setError(null);
 
@@ -16,7 +16,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       const response = await fetch('/.netlify/functions/charge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nonce, amount: total, currency: 'USD' }),
+        body: JSON.stringify({ nonce: token, amount: total, currency: 'USD' }),
       });
 
       const result = await response.json();
@@ -51,27 +51,55 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           {error}
         </p>
       )}
-      <Card
+      <SquareProvider
         applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
         locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
-        callbacks={{
-          cardNonceResponseReceived: (errors, nonce) => {
-            if (errors) {
-              setError(errors.map((e) => e.message).join(', '));
-              return;
-            }
-            handlePayment(nonce);
-          },
-        }}
-      />
-      <button
-        className="checkout-btn"
-        disabled={processing}
-        style={{ display: 'block', margin: '20px auto' }}
-        onClick={() => document.getElementById('card-container').dispatchEvent(new Event('submit'))}
       >
-        {processing ? 'Processing...' : 'Pay Now'}
-      </button>
+        <Card
+          buttonProps={{
+            css: {
+              background: 'linear-gradient(45deg, #FF1493, #DC143C)',
+              color: '#ffffff',
+              padding: '10px 20px',
+              borderRadius: '8px',
+              fontFamily: "'Poppins', sans-serif",
+              fontWeight: 600,
+              cursor: processing ? 'not-allowed' : 'pointer',
+              opacity: processing ? 0.7 : 1,
+              transition: 'transform 0.2s',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+              },
+            },
+            isLoading: processing,
+            children: processing ? 'Processing...' : 'Pay Now',
+          }}
+          callbacks={{
+            cardNonceResponseReceived: (errors, nonce) => {
+              if (errors) {
+                setError(errors.map((e) => e.message).join(', '));
+                return;
+              }
+              handlePayment(nonce);
+            },
+          }}
+          style={{
+            '.input-container': {
+              border: '1px solid #dddddd',
+              borderRadius: '8px',
+              background: '#f9f9f9',
+            },
+            '.input-container.is-focus': {
+              border: '1px solid #FF1493',
+            },
+            input: {
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '1rem',
+              color: '#333333',
+            },
+          }}
+        />
+      </SquareProvider>
       <button
         className="close-btn"
         onClick={onCancel}
