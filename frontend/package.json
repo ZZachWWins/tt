@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react-square-web-payments-sdk": "^3.2.4",
+    "react-square-web-payments-sdk": "^3.2.4-beta.1",
     "square": "^37.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
