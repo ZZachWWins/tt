@@ -1,12 +1,9 @@
-// src/App.js
 import React, { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Payment from './pages/Payment';
 import './App.css';
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY); // Replace with your Stripe publishable key
 
 const logo = 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752426950/transtt_cvuwz6.png';
 
@@ -109,7 +106,7 @@ function App() {
     }
   ];
 
-  const featuredProducts = [products[0], products[1]]; // Select first two products for Featured section
+  const featuredProducts = [products[0], products[1]];
 
   const addToCart = (product) => {
     const existingItem = cart.find((item) => item.id === product.id);
@@ -135,27 +132,6 @@ function App() {
   const getCartQuantity = (productId) => {
     const item = cart.find((item) => item.id === productId);
     return item ? item.quantity : 0;
-  };
-
-  const handleCheckout = async () => {
-    const stripe = await stripePromise;
-    const response = await fetch('/.netlify/functions/create-checkout-session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ items: cart }),
-    });
-
-    const session = await response.json();
-
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      console.error(result.error.message);
-    }
   };
 
   const EndocannabinoidSystem = () => (
@@ -301,6 +277,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/product-finder" element={<EndocannabinoidSystem />} />
             <Route path="/hemp101" element={<Hemp101 />} />
+            <Route path="/payment" element={<Payment cart={cart} onSuccess={() => window.location.href='/success'} onCancel={() => window.location.href='/cancel'} />} />
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
           </Routes>
@@ -340,7 +317,7 @@ function App() {
                       ))}
                     </ul>
                     <p>Total: ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</p>
-                    <button onClick={handleCheckout} className="checkout-btn">Checkout (Pre-order)</button>
+                    <Link to="/payment" className="checkout-btn">Checkout (Pre-order)</Link>
                   </>
                 )}
                 <button className="close-btn" onClick={() => setShowCart(false)}>
