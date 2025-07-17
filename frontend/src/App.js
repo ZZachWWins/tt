@@ -167,7 +167,7 @@ function App() {
     <section className="landing-section">
       <h2 className="landing-title">Welcome to Tejas Treats</h2>
       <p className="landing-text">
-        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE TO ONE RATIO OF CBD TO THC. 
+        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE TO ONE RATIO OF CBD TO THC.
       </p>
       <div className="featured-products-section">
         <h2 className="featured-products-title">Featured Products</h2>
@@ -306,11 +306,11 @@ function App() {
                   <>
                     <ul>
                       {cart.map((item, index) => (
-                        <li key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <li key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                           <span>{item.name} (x{item.quantity}) - ${(item.price * item.quantity).toFixed(2)}</span>
                           <div>
-                            <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                            <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                            <button onClick={() => updateQuantity(item.id, -1)} style={{ marginRight: '5px' }}>-</button>
+                            <button onClick={() => updateQuantity(item.id, 1)} style={{ marginRight: '5px' }}>+</button>
                             <button onClick={() => removeFromCart(item.id)}>Remove</button>
                           </div>
                         </li>

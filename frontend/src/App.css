@@ -509,7 +509,7 @@ body {
 }
 
 /* Add to existing App.css */
-#card-container {
+#sq-creditcard {
   margin: 0 auto;
   max-width: 400px;
   padding: 10px;
@@ -518,13 +518,18 @@ body {
   background: #f9f9f9;
 }
 
-#card-container input {
+#sq-creditcard input {
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   color: #333333;
 }
 
-#card-container input:focus {
+#sq-creditcard input:focus {
   outline: none;
   border: 1px solid #FF1493;
+}
+
+#sq-apple-pay, #sq-google-pay {
+  margin: 10px auto;
+  max-width: 400px;
 }

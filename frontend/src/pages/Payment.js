@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SquareProvider, Card } from 'react-square-web-payments-sdk';
+import { PaymentForm, CreditCard, ApplePay, GooglePay } from 'react-square-web-payments-sdk';
 import '../App.css';
 
 const Payment = ({ cart, onSuccess, onCancel }) => {
@@ -51,11 +51,31 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           {error}
         </p>
       )}
-      <SquareProvider
+      <PaymentForm
         applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
         locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
+        cardTokenizeResponseReceived={(token, buyer) => {
+          if (token.errors) {
+            setError(token.errors.map((e) => e.message).join(', '));
+            return;
+          }
+          console.log('Payment token:', token, 'Buyer:', buyer);
+          handlePayment(token.token);
+        }}
+        createVerificationDetails={() => ({
+          amount: total,
+          billingContact: {
+            addressLines: ['123 Main Street'],
+            familyName: 'Customer',
+            givenName: 'Test',
+            countryCode: 'US',
+            city: 'Austin',
+          },
+          currencyCode: 'USD',
+          intent: 'CHARGE',
+        })}
       >
-        <Card
+        <CreditCard
           buttonProps={{
             css: {
               background: 'linear-gradient(45deg, #FF1493, #DC143C)',
@@ -74,15 +94,6 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
             isLoading: processing,
             children: processing ? 'Processing...' : 'Pay Now',
           }}
-          callbacks={{
-            cardNonceResponseReceived: (errors, nonce) => {
-              if (errors) {
-                setError(errors.map((e) => e.message).join(', '));
-                return;
-              }
-              handlePayment(nonce);
-            },
-          }}
           style={{
             '.input-container': {
               border: '1px solid #dddddd',
@@ -99,7 +110,21 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
             },
           }}
         />
-      </SquareProvider>
+        <ApplePay
+          createPaymentRequest={() => ({
+            countryCode: 'US',
+            currencyCode: 'USD',
+            total: { amount: total, label: 'Total' },
+          })}
+        />
+        <GooglePay
+          createPaymentRequest={() => ({
+            countryCode: 'US',
+            currencyCode: 'USD',
+            total: { amount: total, label: 'Total' },
+          })}
+        />
+      </PaymentForm>
       <button
         className="close-btn"
         onClick={onCancel}
