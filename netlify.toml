@@ -1,7 +1,13 @@
 [build]
-  publish = "frontend/build"
+  base = "frontend"
+  command = "npm run build"
+  publish = "build"
   functions = "functions"
-  command = "cd frontend && npm run build"
+
+[build.environment]
+  REACT_APP_SQUARE_APPLICATION_ID = "your_square_application_id"
+  REACT_APP_SQUARE_LOCATION_ID = "your_square_location_id"
+  SQUARE_ACCESS_TOKEN = "your_square_access_token"
 
 [[redirects]]
   from = "/*"

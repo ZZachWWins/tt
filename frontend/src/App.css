@@ -507,3 +507,24 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Add to existing App.css */
+#card-container {
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+#card-container input {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #333333;
+}
+
+#card-container input:focus {
+  outline: none;
+  border: 1px solid #FF1493;
+}

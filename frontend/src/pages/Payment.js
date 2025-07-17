@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PaymentForm, CreditCardInput } from '@square/web-sdk';
+import { Card } from '@square/web-sdk';
 import '../App.css';
 
 const Payment = ({ cart, onSuccess, onCancel }) => {
@@ -51,22 +51,27 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           {error}
         </p>
       )}
-      <PaymentForm
+      <Card
         applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
         locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
-        card={{
-          onNonce: handlePayment,
+        callbacks={{
+          cardNonceResponseReceived: (errors, nonce) => {
+            if (errors) {
+              setError(errors.map((e) => e.message).join(', '));
+              return;
+            }
+            handlePayment(nonce);
+          },
         }}
+      />
+      <button
+        className="checkout-btn"
+        disabled={processing}
+        style={{ display: 'block', margin: '20px auto' }}
+        onClick={() => document.getElementById('card-container').dispatchEvent(new Event('submit'))}
       >
-        <CreditCardInput />
-        <button
-          className="checkout-btn"
-          disabled={processing}
-          style={{ display: 'block', margin: '20px auto' }}
-        >
-          {processing ? 'Processing...' : 'Pay Now'}
-        </button>
-      </PaymentForm>
+        {processing ? 'Processing...' : 'Pay Now'}
+      </button>
       <button
         className="close-btn"
         onClick={onCancel}
