@@ -12,15 +12,25 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
   useEffect(() => {
     // Check for environment variables
     if (!process.env.REACT_APP_SQUARE_APPLICATION_ID || !process.env.REACT_APP_SQUARE_LOCATION_ID) {
-      setError('Square configuration is missing. Please contact support.');
+      setError('Square configuration is missing. Please contact support at treatstejas@gmail.com.'); 
       return;
     }
-    // Check if Square SDK is loaded
-    if (window.Square) {
-      setIsSquareLoaded(true);
-    } else {
-      setError('Square SDK failed to load. Please check your network or ad-blocker settings.');
-    }
+
+    // Check if Square SDK is loaded with retry
+    const checkSquareSDK = (attempts = 3, delay = 1000) => {
+      if (window.Square) {
+        console.log('Square SDK loaded successfully');
+        setIsSquareLoaded(true);
+      } else if (attempts > 0) {
+        console.warn(`Square SDK not loaded, retrying (${attempts} attempts left)`);
+        setTimeout(() => checkSquareSDK(attempts - 1, delay), delay);
+      } else {
+        console.error('Square SDK failed to load after retries');
+        setError('Square SDK failed to load. Please check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
+      }
+    };
+
+    checkSquareSDK();
   }, []);
 
   const handlePayment = async (token) => {
@@ -37,12 +47,14 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       const result = await response.json();
 
       if (response.ok) {
+        console.log('Payment successful:', result);
         onSuccess();
       } else {
         setError(result.error || 'Payment failed. Please try again.');
       }
     } catch (err) {
-      setError('An error occurred during payment processing. Please try again.');
+      console.error('Payment error:', err);
+      setError('An error occurred during payment processing. Please try again or contact support at treatstejas@gmail.com.');
     } finally {
       setProcessing(false);
     }
