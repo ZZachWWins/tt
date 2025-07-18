@@ -11,6 +11,7 @@
     "@square/web-sdk": "^2.1.0",
     "axios": "^0.27.2",
     "cloudinary": "^2.6.0",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "gsap": "^3.12.7",
     "mongoose": "^8.12.1",
