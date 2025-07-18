@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
-import { PaymentForm, CreditCard, ApplePay, GooglePay } from 'react-square-web-payments-sdk';
+import React, { useState, useEffect } from 'react';
+import { PaymentForm, CreditCard } from 'react-square-web-payments-sdk';
 import '../App.css';
 
 const Payment = ({ cart, onSuccess, onCancel }) => {
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const [isSquareLoaded, setIsSquareLoaded] = useState(false);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+
+  useEffect(() => {
+    // Check for environment variables
+    if (!process.env.REACT_APP_SQUARE_APPLICATION_ID || !process.env.REACT_APP_SQUARE_LOCATION_ID) {
+      setError('Square configuration is missing. Please contact support.');
+      return;
+    }
+    // Check if Square SDK is loaded
+    if (window.Square) {
+      setIsSquareLoaded(true);
+    } else {
+      setError('Square SDK failed to load. Please check your network or ad-blocker settings.');
+    }
+  }, []);
 
   const handlePayment = async (token) => {
     setProcessing(true);
@@ -27,7 +42,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
         setError(result.error || 'Payment failed. Please try again.');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError('An error occurred during payment processing. Please try again.');
     } finally {
       setProcessing(false);
     }
@@ -51,80 +66,72 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           {error}
         </p>
       )}
-      <PaymentForm
-        applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
-        locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
-        cardTokenizeResponseReceived={(token, buyer) => {
-          if (token.errors) {
-            setError(token.errors.map((e) => e.message).join(', '));
-            return;
-          }
-          console.log('Payment token:', token, 'Buyer:', buyer);
-          handlePayment(token.token);
-        }}
-        createVerificationDetails={() => ({
-          amount: total,
-          billingContact: {
-            addressLines: ['123 Main Street'],
-            familyName: 'Customer',
-            givenName: 'Test',
-            countryCode: 'US',
-            city: 'Austin',
-          },
-          currencyCode: 'USD',
-          intent: 'CHARGE',
-        })}
-      >
-        <CreditCard
-          buttonProps={{
-            css: {
-              background: 'linear-gradient(45deg, #FF1493, #DC143C)',
-              color: '#ffffff',
-              padding: '10px 20px',
-              borderRadius: '8px',
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 600,
-              cursor: processing ? 'not-allowed' : 'pointer',
-              opacity: processing ? 0.7 : 1,
-              transition: 'transform 0.2s',
-              '&:hover': {
-                transform: 'translateY(-2px)',
+      {isSquareLoaded ? (
+        <PaymentForm
+          applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
+          locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
+          cardTokenizeResponseReceived={(token, buyer) => {
+            if (token.errors) {
+              setError(token.errors.map((e) => e.message).join(', '));
+              return;
+            }
+            console.log('Payment token:', token, 'Buyer:', buyer);
+            handlePayment(token.token);
+          }}
+          createVerificationDetails={() => ({
+            amount: total,
+            billingContact: {
+              addressLines: ['123 Main Street'],
+              familyName: 'Customer',
+              givenName: 'Test',
+              countryCode: 'US',
+              city: 'Austin',
+            },
+            currencyCode: 'USD',
+            intent: 'CHARGE',
+          })}
+        >
+          <CreditCard
+            buttonProps={{
+              css: {
+                background: 'linear-gradient(45deg, #FF1493, #DC143C)',
+                color: '#ffffff',
+                padding: '10px 20px',
+                borderRadius: '8px',
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 600,
+                cursor: processing ? 'not-allowed' : 'pointer',
+                opacity: processing ? 0.7 : 1,
+                transition: 'transform 0.2s',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                },
               },
-            },
-            isLoading: processing,
-            children: processing ? 'Processing...' : 'Pay Now',
-          }}
-          style={{
-            '.input-container': {
-              border: '1px solid #dddddd',
-              borderRadius: '8px',
-              background: '#f9f9f9',
-            },
-            '.input-container.is-focus': {
-              border: '1px solid #FF1493',
-            },
-            input: {
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '1rem',
-              color: '#333333',
-            },
-          }}
-        />
-        <ApplePay
-          createPaymentRequest={() => ({
-            countryCode: 'US',
-            currencyCode: 'USD',
-            total: { amount: total, label: 'Total' },
-          })}
-        />
-        <GooglePay
-          createPaymentRequest={() => ({
-            countryCode: 'US',
-            currencyCode: 'USD',
-            total: { amount: total, label: 'Total' },
-          })}
-        />
-      </PaymentForm>
+              isLoading: processing,
+              children: processing ? 'Processing...' : 'Pay Now',
+            }}
+            style={{
+              '.input-container': {
+                border: '1px solid #dddddd',
+                borderRadius: '8px',
+                background: '#f9f9f9',
+              },
+              '.input-container.is-focus': {
+                border: '1px solid #FF1493',
+              },
+              input: {
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '1rem',
+                color: '#333333',
+              },
+            }}
+          />
+        </PaymentForm>
+      ) : (
+        <p style={{ color: '#666666', textAlign: 'center', marginBottom: '20px' }}>
+          Loading payment form... If this persists, please disable ad-blockers or contact support.
+        </p>
+      )}
       <button
         className="close-btn"
         onClick={onCancel}
