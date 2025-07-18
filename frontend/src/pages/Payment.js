@@ -10,23 +10,53 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
   useEffect(() => {
-    // Check for environment variables
+    // Check environment variables
     if (!process.env.REACT_APP_SQUARE_APPLICATION_ID || !process.env.REACT_APP_SQUARE_LOCATION_ID) {
-      setError('Square configuration is missing. Please contact support at treatstejas@gmail.com.'); 
+      console.error('Missing Square environment variables', {
+        appId: process.env.REACT_APP_SQUARE_APPLICATION_ID,
+        locationId: process.env.REACT_APP_SQUARE_LOCATION_ID,
+      });
+      setError('Square configuration is missing. Please contact support at treatstejas@gmail.com.');
       return;
     }
 
-    // Check if Square SDK is loaded with retry
-    const checkSquareSDK = (attempts = 3, delay = 1000) => {
+    // Load Square SDK script explicitly
+    const loadSquareSDK = () => {
+      const script = document.createElement('script');
+      script.src = process.env.REACT_APP_SQUARE_APPLICATION_ID.includes('sandbox')
+        ? 'https://js.squareupsandbox.com/v2/paymentform'
+        : 'https://js.squareup.com/v2/paymentform';
+      script.async = true;
+      script.onload = () => {
+        console.log('Square SDK script loaded successfully');
+        if (window.Square) {
+          setIsSquareLoaded(true);
+        } else {
+          console.error('Square SDK object not available after script load');
+          setError('Failed to initialize Square payment system. Please try again or contact support at treatstejas@gmail.com.');
+        }
+      };
+      script.onerror = () => {
+        console.error('Failed to load Square SDK script');
+        setError('Failed to load Square payment system. Please check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
+      };
+      document.head.appendChild(script);
+      return () => {
+        document.head.removeChild(script);
+      };
+    };
+
+    // Check if Square SDK is already loaded or load it
+    const checkSquareSDK = (attempts = 5, delay = 1000) => {
       if (window.Square) {
-        console.log('Square SDK loaded successfully');
+        console.log('Square SDK already loaded');
         setIsSquareLoaded(true);
       } else if (attempts > 0) {
         console.warn(`Square SDK not loaded, retrying (${attempts} attempts left)`);
         setTimeout(() => checkSquareSDK(attempts - 1, delay), delay);
       } else {
-        console.error('Square SDK failed to load after retries');
-        setError('Square SDK failed to load. Please check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
+        console.error('Square SDK not loaded after retries, loading script');
+        loadSquareSDK();
       }
     };
 
@@ -38,6 +68,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
     setError(null);
 
     try {
+      console.log('Sending payment request with nonce:', token);
       const response = await fetch('/.netlify/functions/charge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,10 +81,11 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
         console.log('Payment successful:', result);
         onSuccess();
       } else {
+        console.error('Payment failed:', result.error);
         setError(result.error || 'Payment failed. Please try again.');
       }
     } catch (err) {
-      console.error('Payment error:', err);
+      console.error('Payment processing error:', err);
       setError('An error occurred during payment processing. Please try again or contact support at treatstejas@gmail.com.');
     } finally {
       setProcessing(false);
@@ -84,6 +116,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
           cardTokenizeResponseReceived={(token, buyer) => {
             if (token.errors) {
+              console.error('Tokenization errors:', token.errors);
               setError(token.errors.map((e) => e.message).join(', '));
               return;
             }
@@ -140,9 +173,17 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           />
         </PaymentForm>
       ) : (
-        <p style={{ color: '#666666', textAlign: 'center', marginBottom: '20px' }}>
-          Loading payment form... If this persists, please disable ad-blockers or contact support at treatstejas@gmail.com.
-        </p>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <p style={{ color: '#666666', fontSize: '1.2rem' }}>
+            Loading payment form... If this persists, please try the following:
+          </p>
+          <ul style={{ color: '#666666', fontSize: '1rem', textAlign: 'left', maxWidth: '400px', margin: '0 auto' }}>
+            <li>Disable any ad-blockers or browser extensions.</li>
+            <li>Check your internet connection.</li>
+            <li>Try a different browser (e.g., Chrome or Firefox).</li>
+            <li>Contact support at <a href="mailto:treatstejas@gmail.com">treatstejas@gmail.com</a>.</li>
+          </ul>
+        </div>
       )}
       <button
         className="close-btn"
