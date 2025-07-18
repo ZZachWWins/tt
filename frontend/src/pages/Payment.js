@@ -68,8 +68,8 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       )}
       {isSquareLoaded ? (
         <PaymentForm
-          applicationId={process.env.SQUARE_APPLICATION_ID}
-          locationId={process.env.SQUARE_LOCATION_ID}
+          applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
+          locationId={process.env.REACT_APP_SQUARE_LOCATION_ID}
           cardTokenizeResponseReceived={(token, buyer) => {
             if (token.errors) {
               setError(token.errors.map((e) => e.message).join(', '));
@@ -129,7 +129,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
         </PaymentForm>
       ) : (
         <p style={{ color: '#666666', textAlign: 'center', marginBottom: '20px' }}>
-          Loading payment form... If this persists, please disable ad-blockers or contact support.
+          Loading payment form... If this persists, please disable ad-blockers or contact support at treatstejas@gmail.com.
         </p>
       )}
       <button
