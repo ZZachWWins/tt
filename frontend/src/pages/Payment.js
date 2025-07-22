@@ -9,6 +9,34 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
+  const loadSquareSDK = () => {
+    setError(null);
+    const script = document.createElement('script');
+    script.src = 'https://js.squareup.com/v2/paymentform/1.0.0'; // Pinned production version
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.onload = () => {
+      console.log('Square SDK script loaded successfully');
+      if (window.Square) {
+        console.log('Square SDK object available');
+        setIsSquareLoaded(true);
+      } else {
+        console.error('Square SDK object not available after script load');
+        setError('Failed to initialize Square payment system. Please try again or contact support at treatstejas@gmail.com.');
+      }
+    };
+    script.onerror = (e) => {
+      console.error('Failed to load Square SDK script:', e);
+      setError('Failed to load Square payment system. Please try the button below, check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
+    };
+    document.head.appendChild(script);
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  };
+
   useEffect(() => {
     // Check environment variables
     if (!process.env.REACT_APP_SQUARE_APPLICATION_ID || !process.env.REACT_APP_SQUARE_LOCATION_ID) {
@@ -20,34 +48,8 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       return;
     }
 
-    // Load Square SDK script explicitly
-    const loadSquareSDK = () => {
-      const script = document.createElement('script');
-      script.src = process.env.REACT_APP_SQUARE_APPLICATION_ID.includes('sandbox')
-        ? 'https://js.squareupsandbox.com/v2/paymentform'
-        : 'https://js.squareup.com/v2/paymentform';
-      script.async = true;
-      script.onload = () => {
-        console.log('Square SDK script loaded successfully');
-        if (window.Square) {
-          setIsSquareLoaded(true);
-        } else {
-          console.error('Square SDK object not available after script load');
-          setError('Failed to initialize Square payment system. Please try again or contact support at treatstejas@gmail.com.');
-        }
-      };
-      script.onerror = () => {
-        console.error('Failed to load Square SDK script');
-        setError('Failed to load Square payment system. Please check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
-      };
-      document.head.appendChild(script);
-      return () => {
-        document.head.removeChild(script);
-      };
-    };
-
     // Check if Square SDK is already loaded or load it
-    const checkSquareSDK = (attempts = 5, delay = 1000) => {
+    const checkSquareSDK = (attempts = 10, delay = 2000) => {
       if (window.Square) {
         console.log('Square SDK already loaded');
         setIsSquareLoaded(true);
@@ -179,10 +181,17 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           </p>
           <ul style={{ color: '#666666', fontSize: '1rem', textAlign: 'left', maxWidth: '400px', margin: '0 auto' }}>
             <li>Disable any ad-blockers or browser extensions.</li>
-            <li>Check your internet connection.</li>
+            <li>Ensure a stable internet connection.</li>
             <li>Try a different browser (e.g., Chrome or Firefox).</li>
             <li>Contact support at <a href="mailto:treatstejas@gmail.com">treatstejas@gmail.com</a>.</li>
           </ul>
+          <button
+            className="close-btn"
+            onClick={loadSquareSDK}
+            style={{ display: 'block', margin: '10px auto' }}
+          >
+            Retry Loading Payment Form
+          </button>
         </div>
       )}
       <button
