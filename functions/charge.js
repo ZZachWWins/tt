@@ -22,9 +22,9 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { nonce, amount, currency, billingContact } = JSON.parse(event.body);
+    const { nonce, amount, currency, billingContact, cart } = JSON.parse(event.body);
 
-    if (!nonce || !amount || !currency || !billingContact) {
+    if (!nonce || !amount || !currency || !billingContact || !cart || !billingContact.email) {
       return {
         statusCode: 400,
         headers: {
@@ -32,26 +32,65 @@ exports.handler = async (event) => {
           'Access-Control-Allow-Headers': 'Content-Type',
           'Access-Control-Allow-Methods': 'POST',
         },
-        body: JSON.stringify({ error: 'Missing required parameters: nonce, amount, currency, or billingContact' }),
+        body: JSON.stringify({ error: 'Missing required parameters: nonce, amount, currency, billingContact, cart, or email' }),
       };
     }
 
-    const response = await client.paymentsApi.createPayment({
+    // Create an order in Square
+    const orderResponse = await client.ordersApi.createOrder({
+      order: {
+        locationId: process.env.REACT_APP_SQUARE_LOCATION_ID,
+        lineItems: cart.map((item) => ({
+          name: item.name,
+          quantity: item.quantity.toString(),
+          basePriceMoney: {
+            amount: Math.round(item.price * 100), // Convert to cents
+            currency: 'USD',
+          },
+        })),
+        fulfillments: [
+          {
+            type: 'SHIPMENT',
+            state: 'PROPOSED',
+            shipmentDetails: {
+              recipient: {
+                displayName: `${billingContact.firstName} ${billingContact.lastName}`,
+                emailAddress: billingContact.email,
+                address: {
+                  addressLine1: billingContact.addressLine1,
+                  locality: billingContact.city,
+                  administrativeDistrictLevel1: billingContact.state,
+                  postalCode: billingContact.zip,
+                  country: billingContact.country,
+                },
+              },
+            },
+          },
+        ],
+      },
+      idempotencyKey: randomUUID(),
+    });
+
+    const orderId = orderResponse.result.order.id;
+
+    // Create payment linked to the order
+    const paymentResponse = await client.paymentsApi.createPayment({
       sourceId: nonce,
       amountMoney: {
         amount: Math.round(parseFloat(amount) * 100), // Convert dollars to cents
         currency: currency || 'USD',
       },
       idempotencyKey: randomUUID(),
-      buyerEmailAddress: billingContact.email || 'customer@treatstejas.com', // Placeholder email
+      orderId: orderId,
+      buyerEmailAddress: billingContact.email,
       billingAddress: {
-        addressLines: [billingContact.addressLine1],
-        familyName: billingContact.lastName,
-        givenName: billingContact.firstName,
-        countryCode: billingContact.country,
-        city: billingContact.city,
-        state: billingContact.state,
+        addressLine1: billingContact.addressLine1,
+        locality: billingContact.city,
+        administrativeDistrictLevel1: billingContact.state,
         postalCode: billingContact.zip,
+        country: billingContact.country,
+        firstName: billingContact.firstName,
+        lastName: billingContact.lastName,
       },
     });
 
@@ -63,12 +102,13 @@ exports.handler = async (event) => {
         'Access-Control-Allow-Methods': 'POST',
       },
       body: JSON.stringify({
-        payment: response.result,
-        billingContact, // Return for order processing
+        payment: paymentResponse.result,
+        orderId: orderId,
+        billingContact,
       }),
     };
   } catch (error) {
-    console.error('Payment processing error:', error);
+    console.error('Payment or order processing error:', error);
     return {
       statusCode: 400,
       headers: {

@@ -9,6 +9,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    email: '',
     addressLine1: '',
     city: '',
     state: '',
@@ -24,27 +25,27 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
   };
 
   const validateForm = () => {
-    if (!formData.firstName || !formData.lastName || !formData.addressLine1 || !formData.city || !formData.state || !formData.zip) {
-      setError('Please fill in all required shipping fields.');
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.addressLine1 || !formData.city || !formData.state || !formData.zip) {
+      setError('Please fill in all required fields.');
+      return false;
+    }
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address.');
       return false;
     }
     return true;
   };
 
-  const loadSquareSDK = (urls, index = 0) => {
-    if (index >= urls.length) {
-      console.error('All Square SDK URLs failed to load');
-      setError('Failed to load Square payment system. Please try the button below, check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
-      return;
-    }
-
+  const loadSquareSDK = () => {
     setError(null);
     const script = document.createElement('script');
-    script.src = urls[index];
+    script.src = 'https://web.squarecdn.com/v1/square.js';
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.onload = () => {
-      console.log(`Square SDK script loaded successfully from ${urls[index]}`);
+      console.log('Square SDK script loaded successfully from https://web.squarecdn.com/v1/square.js');
       if (window.Square) {
         console.log('Square SDK object available');
         setIsSquareLoaded(true);
@@ -54,8 +55,8 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       }
     };
     script.onerror = (e) => {
-      console.error(`Failed to load Square SDK script from ${urls[index]}:`, e);
-      loadSquareSDK(urls, index + 1);
+      console.error('Failed to load Square SDK script:', e);
+      setError('Failed to load Square payment system. Please check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
     };
     document.head.appendChild(script);
     return () => {
@@ -76,24 +77,8 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       return;
     }
 
-    // Check if Square SDK is already loaded or load it
-    const checkSquareSDK = (attempts = 10, delay = 2000) => {
-      if (window.Square) {
-        console.log('Square SDK already loaded');
-        setIsSquareLoaded(true);
-      } else if (attempts > 0) {
-        console.warn(`Square SDK not loaded, retrying (${attempts} attempts left)`);
-        setTimeout(() => checkSquareSDK(attempts - 1, delay), delay);
-      } else {
-        console.error('Square SDK not loaded after retries, loading script');
-        loadSquareSDK([
-          'https://web.squarecdn.com/v1/square.js',
-          'https://js.squareup.com/v2/paymentform/1.0.0',
-        ]);
-      }
-    };
-
-    checkSquareSDK();
+    // Load Square SDK immediately
+    loadSquareSDK();
   }, []);
 
   const handlePayment = async (token) => {
@@ -114,6 +99,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           billingContact: {
             firstName: formData.firstName,
             lastName: formData.lastName,
+            email: formData.email,
             addressLine1: formData.addressLine1,
             city: formData.city,
             state: formData.state,
@@ -196,6 +182,21 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
               }}
             />
           </div>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="Email *"
+            required
+            style={{
+              padding: '10px',
+              border: '1px solid #dddddd',
+              borderRadius: '8px',
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '16px',
+            }}
+          />
           <input
             type="text"
             name="addressLine1"
@@ -295,6 +296,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 addressLines: [formData.addressLine1],
                 familyName: formData.lastName,
                 givenName: formData.firstName,
+                email: formData.email,
                 countryCode: formData.country,
                 city: formData.city,
                 state: formData.state,
@@ -307,12 +309,12 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
             <CreditCard
               buttonProps={{
                 css: {
-                  background: 'linear-gradient(45deg, #FF1493, #DC143C)',
+                  backgroundColor: '#FF1493', // Simplified to single color
                   color: '#ffffff',
                   padding: '10px 20px',
                   borderRadius: '8px',
-                  fontFamily: "'Poppins', sans-serif",
-                  fontWeight: 600,
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: '600',
                   cursor: processing ? 'not-allowed' : 'pointer',
                   opacity: processing ? 0.7 : 1,
                   transition: 'transform 0.2s',
@@ -324,8 +326,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 children: processing ? 'Processing...' : 'Pay Now',
               }}
               style={{
-                minHeight: '200px', // Ensure space for inputs
-                '.input-container': {
+                'card-number': {
                   borderColor: '#dddddd',
                   borderWidth: '1px',
                   borderStyle: 'solid',
@@ -335,10 +336,58 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                   marginBottom: '10px',
                   minHeight: '40px',
                 },
-                '.input-container.is-focus': {
+                'card-number:focus': {
                   borderColor: '#FF1493',
                 },
-                '.input-container.is-error': {
+                'card-number.error': {
+                  borderColor: '#DC143C',
+                },
+                'expiration-date': {
+                  borderColor: '#dddddd',
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
+                  borderRadius: '8px',
+                  backgroundColor: '#f9f9f9',
+                  padding: '10px',
+                  marginBottom: '10px',
+                  minHeight: '40px',
+                },
+                'expiration-date:focus': {
+                  borderColor: '#FF1493',
+                },
+                'expiration-date.error': {
+                  borderColor: '#DC143C',
+                },
+                'cvv': {
+                  borderColor: '#dddddd',
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
+                  borderRadius: '8px',
+                  backgroundColor: '#f9f9f9',
+                  padding: '10px',
+                  marginBottom: '10px',
+                  minHeight: '40px',
+                },
+                'cvv:focus': {
+                  borderColor: '#FF1493',
+                },
+                'cvv.error': {
+                  borderColor: '#DC143C',
+                },
+                'postal-code': {
+                  borderColor: '#dddddd',
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
+                  borderRadius: '8px',
+                  backgroundColor: '#f9f9f9',
+                  padding: '10px',
+                  marginBottom: '10px',
+                  minHeight: '40px',
+                },
+                'postal-code:focus': {
+                  borderColor: '#FF1493',
+                },
+                'postal-code.error': {
                   borderColor: '#DC143C',
                 },
                 'input': {
@@ -348,10 +397,6 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                   padding: '10px',
                   width: '100%',
                   boxSizing: 'border-box',
-                },
-                'iframe': {
-                  minHeight: '40px',
-                  width: '100%',
                 },
               }}
             />
@@ -369,7 +414,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
             </ul>
             <button
               className="close-btn"
-              onClick={() => loadSquareSDK(['https://web.squarecdn.com/v1/square.js', 'https://js.squareup.com/v2/paymentform/1.0.0'])}
+              onClick={loadSquareSDK}
               style={{ display: 'block', margin: '10px auto' }}
             >
               Retry Loading Payment Form
