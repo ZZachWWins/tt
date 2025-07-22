@@ -9,14 +9,20 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
-  const loadSquareSDK = () => {
+  const loadSquareSDK = (urls, index = 0) => {
+    if (index >= urls.length) {
+      console.error('All Square SDK URLs failed to load');
+      setError('Failed to load Square payment system. Please try the button below, check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
+      return;
+    }
+
     setError(null);
     const script = document.createElement('script');
-    script.src = 'https://js.squareup.com/v2/paymentform/1.0.0'; // Pinned production version
+    script.src = urls[index];
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.onload = () => {
-      console.log('Square SDK script loaded successfully');
+      console.log(`Square SDK script loaded successfully from ${urls[index]}`);
       if (window.Square) {
         console.log('Square SDK object available');
         setIsSquareLoaded(true);
@@ -26,8 +32,8 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       }
     };
     script.onerror = (e) => {
-      console.error('Failed to load Square SDK script:', e);
-      setError('Failed to load Square payment system. Please try the button below, check your network, disable ad-blockers, or contact support at treatstejas@gmail.com.');
+      console.error(`Failed to load Square SDK script from ${urls[index]}:`, e);
+      loadSquareSDK(urls, index + 1);
     };
     document.head.appendChild(script);
     return () => {
@@ -58,7 +64,10 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
         setTimeout(() => checkSquareSDK(attempts - 1, delay), delay);
       } else {
         console.error('Square SDK not loaded after retries, loading script');
-        loadSquareSDK();
+        loadSquareSDK([
+          'https://web.squarecdn.com/v1/square.js',
+          'https://js.squareup.com/v2/paymentform/1.0.0',
+        ]);
       }
     };
 
@@ -187,7 +196,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
           </ul>
           <button
             className="close-btn"
-            onClick={loadSquareSDK}
+            onClick={() => loadSquareSDK(['https://web.squarecdn.com/v1/square.js', 'https://js.squareup.com/v2/paymentform/1.0.0'])}
             style={{ display: 'block', margin: '10px auto' }}
           >
             Retry Loading Payment Form
