@@ -22,9 +22,9 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { nonce, amount, currency } = JSON.parse(event.body);
-    
-    if (!nonce || !amount || !currency) {
+    const { nonce, amount, currency, billingContact } = JSON.parse(event.body);
+
+    if (!nonce || !amount || !currency || !billingContact) {
       return {
         statusCode: 400,
         headers: {
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
           'Access-Control-Allow-Headers': 'Content-Type',
           'Access-Control-Allow-Methods': 'POST',
         },
-        body: JSON.stringify({ error: 'Missing required parameters: nonce, amount, or currency' }),
+        body: JSON.stringify({ error: 'Missing required parameters: nonce, amount, currency, or billingContact' }),
       };
     }
 
@@ -43,6 +43,16 @@ exports.handler = async (event) => {
         currency: currency || 'USD',
       },
       idempotencyKey: randomUUID(),
+      buyerEmailAddress: billingContact.email || 'customer@treatstejas.com', // Placeholder email
+      billingAddress: {
+        addressLines: [billingContact.addressLine1],
+        familyName: billingContact.lastName,
+        givenName: billingContact.firstName,
+        countryCode: billingContact.country,
+        city: billingContact.city,
+        state: billingContact.state,
+        postalCode: billingContact.zip,
+      },
     });
 
     return {
@@ -52,9 +62,13 @@ exports.handler = async (event) => {
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST',
       },
-      body: JSON.stringify(response.result),
+      body: JSON.stringify({
+        payment: response.result,
+        billingContact, // Return for order processing
+      }),
     };
   } catch (error) {
+    console.error('Payment processing error:', error);
     return {
       statusCode: 400,
       headers: {
