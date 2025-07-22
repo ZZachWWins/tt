@@ -25,7 +25,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
 
   const validateForm = () => {
     if (!formData.firstName || !formData.lastName || !formData.addressLine1 || !formData.city || !formData.state || !formData.zip) {
-      setError('Please fill in all required fields.');
+      setError('Please fill in all required shipping fields.');
       return false;
     }
     return true;
@@ -120,6 +120,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
             zip: formData.zip,
             country: formData.country,
           },
+          cart,
         }),
       });
 
@@ -176,7 +177,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 border: '1px solid #dddddd',
                 borderRadius: '8px',
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1rem',
+                fontSize: '16px',
               }}
             />
             <input
@@ -191,7 +192,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 border: '1px solid #dddddd',
                 borderRadius: '8px',
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1rem',
+                fontSize: '16px',
               }}
             />
           </div>
@@ -207,7 +208,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
               border: '1px solid #dddddd',
               borderRadius: '8px',
               fontFamily: "'Poppins', sans-serif",
-              fontSize: '1rem',
+              fontSize: '16px',
             }}
           />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
@@ -223,7 +224,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 border: '1px solid #dddddd',
                 borderRadius: '8px',
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1rem',
+                fontSize: '16px',
               }}
             />
             <input
@@ -238,7 +239,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 border: '1px solid #dddddd',
                 borderRadius: '8px',
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1rem',
+                fontSize: '16px',
               }}
             />
             <input
@@ -246,14 +247,14 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
               name="zip"
               value={formData.zip}
               onChange={handleInputChange}
-              placeholder="ZIP Code transparent *"
+              placeholder="ZIP Code *"
               required
               style={{
                 padding: '10px',
                 border: '1px solid #dddddd',
                 borderRadius: '8px',
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1rem',
+                fontSize: '16px',
               }}
             />
           </div>
@@ -266,12 +267,15 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
               border: '1px solid #dddddd',
               borderRadius: '8px',
               fontFamily: "'Poppins', sans-serif",
-              fontSize: '1rem',
+              fontSize: '16px',
             }}
           >
             <option value="US">United States</option>
           </select>
         </form>
+        <h3 style={{ fontSize: '1.5rem', color: '#333333', marginBottom: '15px' }}>
+          Payment Information
+        </h3>
         {isSquareLoaded ? (
           <PaymentForm
             applicationId={process.env.REACT_APP_SQUARE_APPLICATION_ID}
@@ -312,7 +316,7 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                   cursor: processing ? 'not-allowed' : 'pointer',
                   opacity: processing ? 0.7 : 1,
                   transition: 'transform 0.2s',
-                  '&:hover': {
+                  ':hover': {
                     transform: 'translateY(-2px)',
                   },
                 },
@@ -320,24 +324,34 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 children: processing ? 'Processing...' : 'Pay Now',
               }}
               style={{
+                minHeight: '200px', // Ensure space for inputs
                 '.input-container': {
-                  border: '1px solid #dddddd',
+                  borderColor: '#dddddd',
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
                   borderRadius: '8px',
-                  background: '#f9f9f9',
+                  backgroundColor: '#f9f9f9',
                   padding: '10px',
                   marginBottom: '10px',
+                  minHeight: '40px',
                 },
                 '.input-container.is-focus': {
-                  border: '1px solid #FF1493',
-                },
-                input: {
-                  fontFamily: "'Poppins', sans-serif",
-                  fontSize: '1rem',
-                  color: '#333333',
-                  padding: '10px',
+                  borderColor: '#FF1493',
                 },
                 '.input-container.is-error': {
-                  border: '1px solid #DC143C',
+                  borderColor: '#DC143C',
+                },
+                'input': {
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '16px',
+                  color: '#333333',
+                  padding: '10px',
+                  width: '100%',
+                  boxSizing: 'border-box',
+                },
+                'iframe': {
+                  minHeight: '40px',
+                  width: '100%',
                 },
               }}
             />
