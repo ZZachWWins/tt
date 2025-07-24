@@ -16,7 +16,7 @@ function App() {
   const products = [
     {
       id: 1,
-      name: 'Red Velvet Delta-9 Cupcake - 300mg of Delta-9 THC',
+      name: 'Red Velvet Delta-9 Cupcake - 300mg',
       price: 39.99,
       description: 'Our strongest batch, Delicious red velvet flavored muffins infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week. TEXAS SIZED!',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425778/Super-Moist-Red-Velvet-Cupcakes_ldrr4g.jpg',
@@ -26,7 +26,7 @@ function App() {
     },
     {
       id: 2,
-      name: 'Sweet Delight Chocolate Bar - 150 mg of Delta-9 THC',
+      name: 'Sweet Delight Chocolate Bar - 150 mg',
       price: 19.99,
       description: 'Rich chocolate bars with a Texas size, containing compliant delta-9 THC. Our Number One. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425834/stack-chocolate_pf62bq.jpg',
@@ -36,7 +36,7 @@ function App() {
     },
     {
       id: 3,
-      name: 'Blueberry Bliss Muffin - 150 mg of Delta-9 THC',
+      name: 'Blueberry Bliss Muffin - 150 mg',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425729/blueberry-muffins-square-35-720x720_1_e9pohw.jpg',
@@ -46,7 +46,7 @@ function App() {
     },
     {
       id: 4,
-      name: 'Infused Cinnamon Coffee Cake - 150 mg of Delta-9 THC',
+      name: 'Infused Cinnamon Coffee Cake - 150 mg',
       price: 19.99,
       description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425905/Coffee-Cake-Muffins-2023-Square_ic7yoa.webp',
@@ -56,7 +56,7 @@ function App() {
     },
     {
       id: 5,
-      name: 'Iced Chocolate Cupcake - 150 mg of Delta-9 THC',
+      name: 'Iced Chocolate Cupcake - 150 mg',
       price: 19.99,
       description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425908/choc-cupcake-2_coelak.jpg',
@@ -66,7 +66,7 @@ function App() {
     },
     {
       id: 6,
-      name: 'Infused Tincture, Sleep 150 mg THC | 150 mg of CBD',
+      name: 'Infused Tincture, Sleep 150 mg|150 mg',
       price: 39.99,
       description: 'Hemp-derived tincture designed for better sleep, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
@@ -76,7 +76,7 @@ function App() {
     },
     {
       id: 7,
-      name: 'Infused Tincture, Energize 150 mg THC | 150 mg of CBD',
+      name: 'Infused Tincture, Energize 150 mg|150 mg',
       price: 39.99,
       description: 'Hemp-derived tincture for an energy boost, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
@@ -86,7 +86,7 @@ function App() {
     },
     {
       id: 8,
-      name: 'Infused Tincture, Social 150 mg THC | 150 mg of CBD',
+      name: 'Infused Tincture, Social 150 mg|150 mg',
       price: 39.99,
       description: 'Hemp-derived tincture to enhance social interactions, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
@@ -96,7 +96,7 @@ function App() {
     },
     {
       id: 9,
-      name: 'Infused Tincture, Creative 150 mg THC | 150 mg of CBD',
+      name: 'Infused Tincture, Creative 150 mg|150 mg',
       price: 39.99,
       description: 'Hemp-derived tincture to spark creativity, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',

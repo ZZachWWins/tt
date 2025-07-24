@@ -29,7 +29,6 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
       setError('Please fill in all required fields.');
       return false;
     }
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError('Please enter a valid email address.');
@@ -309,11 +308,11 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
             <CreditCard
               buttonProps={{
                 css: {
-                  backgroundColor: '#FF1493', // Simplified to single color
+                  backgroundColor: '#FF1493',
                   color: '#ffffff',
                   padding: '10px 20px',
                   borderRadius: '8px',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: "'Poppins', sans-serif",
                   fontWeight: '600',
                   cursor: processing ? 'not-allowed' : 'pointer',
                   opacity: processing ? 0.7 : 1,
@@ -324,80 +323,6 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
                 },
                 isLoading: processing,
                 children: processing ? 'Processing...' : 'Pay Now',
-              }}
-              style={{
-                'card-number': {
-                  borderColor: '#dddddd',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderRadius: '8px',
-                  backgroundColor: '#f9f9f9',
-                  padding: '10px',
-                  marginBottom: '10px',
-                  minHeight: '40px',
-                },
-                'card-number:focus': {
-                  borderColor: '#FF1493',
-                },
-                'card-number.error': {
-                  borderColor: '#DC143C',
-                },
-                'expiration-date': {
-                  borderColor: '#dddddd',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderRadius: '8px',
-                  backgroundColor: '#f9f9f9',
-                  padding: '10px',
-                  marginBottom: '10px',
-                  minHeight: '40px',
-                },
-                'expiration-date:focus': {
-                  borderColor: '#FF1493',
-                },
-                'expiration-date.error': {
-                  borderColor: '#DC143C',
-                },
-                'cvv': {
-                  borderColor: '#dddddd',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderRadius: '8px',
-                  backgroundColor: '#f9f9f9',
-                  padding: '10px',
-                  marginBottom: '10px',
-                  minHeight: '40px',
-                },
-                'cvv:focus': {
-                  borderColor: '#FF1493',
-                },
-                'cvv.error': {
-                  borderColor: '#DC143C',
-                },
-                'postal-code': {
-                  borderColor: '#dddddd',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderRadius: '8px',
-                  backgroundColor: '#f9f9f9',
-                  padding: '10px',
-                  marginBottom: '10px',
-                  minHeight: '40px',
-                },
-                'postal-code:focus': {
-                  borderColor: '#FF1493',
-                },
-                'postal-code.error': {
-                  borderColor: '#DC143C',
-                },
-                'input': {
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '16px',
-                  color: '#333333',
-                  padding: '10px',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                },
               }}
             />
           </PaymentForm>
