@@ -10,6 +10,7 @@ exports.handler = async (event) => {
   });
 
   if (event.httpMethod !== 'POST') {
+    console.error('Invalid HTTP method:', event.httpMethod);
     return {
       statusCode: 405,
       headers: {
@@ -22,9 +23,11 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { nonce, amount, currency, billingContact, cart } = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
+    const { nonce, amount, currency, billingContact, cart } = body;
 
     if (!nonce || !amount || !currency || !billingContact || !cart || !billingContact.email) {
+      console.error('Missing required parameters:', { nonce, amount, currency, billingContact, cart });
       return {
         statusCode: 400,
         headers: {
@@ -33,6 +36,21 @@ exports.handler = async (event) => {
           'Access-Control-Allow-Methods': 'POST',
         },
         body: JSON.stringify({ error: 'Missing required parameters: nonce, amount, currency, billingContact, cart, or email' }),
+      };
+    }
+
+    // Validate amount
+    const amountInCents = Math.round(parseFloat(amount) * 100);
+    if (isNaN(amountInCents) || amountInCents <= 0) {
+      console.error('Invalid amount:', amount);
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'POST',
+        },
+        body: JSON.stringify({ error: 'Invalid amount: must be a positive number' }),
       };
     }
 
@@ -72,12 +90,13 @@ exports.handler = async (event) => {
     });
 
     const orderId = orderResponse.result.order.id;
+    console.log('Order created successfully:', orderId);
 
     // Create payment linked to the order
     const paymentResponse = await client.paymentsApi.createPayment({
       sourceId: nonce,
       amountMoney: {
-        amount: Math.round(parseFloat(amount) * 100), // Convert dollars to cents
+        amount: amountInCents,
         currency: currency || 'USD',
       },
       idempotencyKey: randomUUID(),
@@ -94,6 +113,8 @@ exports.handler = async (event) => {
       },
     });
 
+    console.log('Payment created successfully:', paymentResponse.result.payment.id);
+
     return {
       statusCode: 200,
       headers: {
@@ -108,7 +129,13 @@ exports.handler = async (event) => {
       }),
     };
   } catch (error) {
-    console.error('Payment or order processing error:', error);
+    console.error('Payment or order processing error:', {
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
+      errors: error.errors,
+      stack: error.stack,
+    });
     return {
       statusCode: 400,
       headers: {
@@ -116,7 +143,12 @@ exports.handler = async (event) => {
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST',
       },
-      body: JSON.stringify({ error: error.message || 'Payment processing failed' }),
+      body: JSON.stringify({
+        error: error.message || 'Payment processing failed',
+        code: error.code,
+        detail: error.detail,
+        errors: error.errors,
+      }),
     };
   }
 };

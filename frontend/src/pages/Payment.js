@@ -115,12 +115,14 @@ const Payment = ({ cart, onSuccess, onCancel }) => {
         console.log('Payment successful:', result);
         onSuccess();
       } else {
-        console.error('Payment failed:', result.error);
-        setError(result.error || 'Payment failed. Please try again.');
+        console.error('Payment failed:', result);
+        setError(
+          result.error || result.message || `Payment failed with code ${result.code || 'unknown'}. Please try again or contact support at treatstejas@gmail.com.`
+        );
       }
     } catch (err) {
       console.error('Payment processing error:', err);
-      setError('An error occurred during payment processing. Please try again or contact support at treatstejas@gmail.com.');
+      setError('An error occurred during payment processing: ' + err.message + '. Please try again or contact support at treatstejas@gmail.com.');
     } finally {
       setProcessing(false);
     }
