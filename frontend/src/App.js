@@ -214,65 +214,6 @@ function App() {
     </section>
   );
 
-  const Shop = () => (
-    <section className="product-section">
-      <h2 className="product-title">Our Products</h2>
-      <div className="product-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} className="product-image" />
-            <h3 className="product-name">{product.name}</h3>
-            <p className="product-description">{product.description}</p>
-            <p className="product-price">${product.price.toFixed(2)}</p>
-            {(product.id === 6 || product.id === 7) ? (
-              <div style={{
-                overflow: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                width: '100%',
-                background: '#FFFFFF',
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-                boxShadow: '-2px 10px 5px rgba(0, 0, 0, 0)',
-                borderRadius: '10px',
-                fontFamily: 'SQ Market, SQ Market, Helvetica, Arial, sans-serif',
-              }}>
-                <div style={{ padding: '20px' }}>
-                  <a
-                    target="_blank"
-                    href={product.id === 6 ? "https://square.link/u/QCbCCLMk?src=embed" : "https://square.link/u/X5RUG6jQ?src=embed"}
-                    style={{
-                      display: 'inline-block',
-                      fontSize: '18px',
-                      lineHeight: '48px',
-                      height: '48px',
-                      color: '#ffffff',
-                      minWidth: '212px',
-                      backgroundColor: '#006aff',
-                      textAlign: 'center',
-                      boxShadow: '0 0 0 1px rgba(0,0,0,.1) inset',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    Buy now
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <>
-                {getCartQuantity(product.id) > 0 && (
-                  <p className="cart-quantity">In cart: {getCartQuantity(product.id)}</p>
-                )}
-                <button onClick={() => addToCart(product)} className="add-to-cart-btn">Add to Cart</button>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-
   const Hemp101 = () => (
     <section className="product-section">
       <h2 className="product-title">Hemp 101: Legal Delta-9 Edibles</h2>
@@ -311,7 +252,6 @@ function App() {
             <nav className="navigation" style={{ justifyContent: 'space-between', width: '100%' }}>
               <div className="nav-left" style={{ display: 'flex', gap: '20px' }}>
                 <Link to="/">HOME</Link>
-                <Link to="/shop">SHOP</Link>
                 <Link to="/product-finder">PRODUCT FINDER</Link>
               </div>
               <Link to="/">
@@ -330,7 +270,6 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/product-finder" element={<EndocannabinoidSystem />} />
