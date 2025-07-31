@@ -67,7 +67,7 @@ function App() {
     {
       id: 6,
       name: 'Infused Tincture, Sleep 150 mg|150 mg',
-      price: 39.99,
+      price: 29.99,
       description: 'Hemp-derived tincture designed for better sleep, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
       cannabinoids: ['Delta-9 THC', 'CBN', 'CBD'],
@@ -77,7 +77,7 @@ function App() {
     {
       id: 7,
       name: 'Infused Tincture, Energize 150 mg|150 mg',
-      price: 39.99,
+      price: 29.99,
       description: 'Hemp-derived tincture for an energy boost, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
       cannabinoids: ['Delta-9 THC', 'CBG', 'CBD'],
@@ -87,7 +87,7 @@ function App() {
     {
       id: 8,
       name: 'Infused Tincture, Social 150 mg|150 mg',
-      price: 39.99,
+      price: 29.99,
       description: 'Hemp-derived tincture to enhance social interactions, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
       cannabinoids: ['Delta-9 THC', 'CBC', 'CBD'],
@@ -97,7 +97,7 @@ function App() {
     {
       id: 9,
       name: 'Infused Tincture, Creative 150 mg|150 mg',
-      price: 39.99,
+      price: 29.99,
       description: 'Hemp-derived tincture to spark creativity, infused with delta-9 THC and CBD. Pre-order: Ships next week.',
       image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752533367/istockphoto-1215748393-612x612_ksonpl.jpg',
       cannabinoids: ['Delta-9 THC', 'CBG', 'CBD'],
@@ -150,7 +150,7 @@ function App() {
             <p><strong>Cannabinoids:</strong> {product.cannabinoids.join(', ')}</p>
             <p><strong>Terpenes:</strong> {product.terpenes.join(', ')}</p>
             <p className="product-price">${product.price.toFixed(2)}</p>
-            {product.id === 7 ? (
+            {(product.id === 6 || product.id === 7) ? (
               <div style={{
                 overflow: 'auto',
                 display: 'flex',
@@ -167,7 +167,7 @@ function App() {
                 <div style={{ padding: '20px' }}>
                   <a
                     target="_blank"
-                    href="https://square.link/u/X5RUG6jQ?src=embed"
+                    href={product.id === 6 ? "https://square.link/u/QCbCCLMk?src=embed" : "https://square.link/u/X5RUG6jQ?src=embed"}
                     style={{
                       display: 'inline-block',
                       fontSize: '18px',
@@ -244,7 +244,7 @@ function App() {
             <h3 className="product-name">{product.name}</h3>
             <p className="product-description">{product.description}</p>
             <p className="product-price">${product.price.toFixed(2)}</p>
-            {product.id === 7 ? (
+            {(product.id === 6 || product.id === 7) ? (
               <div style={{
                 overflow: 'auto',
                 display: 'flex',
@@ -261,7 +261,7 @@ function App() {
                 <div style={{ padding: '20px' }}>
                   <a
                     target="_blank"
-                    href="https://square.link/u/X5RUG6jQ?src=embed"
+                    href={product.id === 6 ? "https://square.link/u/QCbCCLMk?src=embed" : "https://square.link/u/X5RUG6jQ?src=embed"}
                     style={{
                       display: 'inline-block',
                       fontSize: '18px',
