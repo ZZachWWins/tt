@@ -15,16 +15,6 @@ function App() {
 
   const products = [
     {
-      id: 1,
-      name: 'Red Velvet Delta-9 Cupcake - 300mg',
-      price: 39.99,
-      description: 'Our strongest batch, Delicious red velvet flavored muffins infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week. TEXAS SIZED!',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425778/Super-Moist-Red-Velvet-Cupcakes_ldrr4g.jpg',
-      cannabinoids: ['Delta-9 THC', 'CBD'],
-      terpenes: ['Myrcene', 'Limonene'],
-      effect: 'Balanced Relaxation'
-    },
-    {
       id: 2,
       name: 'Sweet Delight Chocolate Bar - 150 mg',
       price: 19.99,
@@ -35,34 +25,24 @@ function App() {
       effect: 'Sleepy'
     },
     {
-      id: 3,
-      name: 'Blueberry Bliss Muffin - 150 mg',
-      price: 19.99,
-      description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425729/blueberry-muffins-square-35-720x720_1_e9pohw.jpg',
+      id: 10,
+      name: 'Vanilla Dream Pink Chocolate Bar - 100mg',
+      price: 14.99,
+      description: 'Delicious pink vanilla-flavored chocolate bar infused with 100 mg of hemp-derived delta-9 THC. Pre-order: Ships next week.',
+      image: 'https://thumbs.dreamstime.com/z/trendy-new-type-ruby-chocolate-sliced-127858612.jpg',
       cannabinoids: ['Delta-9 THC', 'CBD'],
-      terpenes: ['Pinene', 'Terpinolene'],
-      effect: 'Calm Focus'
+      terpenes: ['Limonene', 'Linalool'],
+      effect: 'Uplifting Relaxation'
     },
     {
-      id: 4,
-      name: 'Infused Cinnamon Coffee Cake - 150 mg',
-      price: 19.99,
-      description: 'Refreshing coffee cake infused with delta-9 THC, Texas style. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425905/Coffee-Cake-Muffins-2023-Square_ic7yoa.webp',
-      cannabinoids: ['Delta-9 THC', 'CBG'],
-      terpenes: ['Humulene', 'Caryophyllene'],
-      effect: 'Energetic'
-    },
-    {
-      id: 5,
-      name: 'Iced Chocolate Cupcake - 150 mg',
-      price: 19.99,
-      description: 'Hemp-derived delta-9 muffin with natural blueberry flavor and terpenes for relaxation. Pre-order: Ships next week.',
-      image: 'https://res.cloudinary.com/diyk64mcr/image/upload/v1752425908/choc-cupcake-2_coelak.jpg',
-      cannabinoids: ['Delta-9 THC', 'CBC'],
-      terpenes: ['Limonene', 'Pinene'],
-      effect: 'Uplifted Mood'
+      id: 11,
+      name: 'Ultimate Delta-9 Cookie - 300mg',
+      price: 29.99,
+      description: 'Powerful chocolate chip cookie infused with 300 mg of hemp-derived delta-9 THC. Pre-order: Ships next week.',
+      image: 'https://cdn.pixabay.com/photo/2014/12/22/12/33/cookies-577657_1280.jpg',
+      cannabinoids: ['Delta-9 THC', 'CBN'],
+      terpenes: ['Myrcene', 'Caryophyllene'],
+      effect: 'Deep Relaxation'
     },
     {
       id: 6,
@@ -206,7 +186,7 @@ function App() {
     <section className="landing-section">
       <h2 className="landing-title">Welcome to Tejas Treats</h2>
       <p className="landing-text">
-        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our gummies, chocolates, and treats bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE TO ONE RATIO OF CBD TO THC.
+        Howdy from Tejas Treats! We're a Texas-born company crafting federally compliant delta-9 THC edibles under the 2018 Farm Bill. Our chocolates, cookies, and tinctures bring the Lone Star spirit to every bite, blending authentic Texas flavors with the relaxing benefits of hemp-derived delta-9. All products available for pre-order now—shipping starts next week! ALL PRODUCTS CONTAIN FULL SPECTRUM HEMP, A ONE TO ONE RATIO OF CBD TO THC.
       </p>
       <div className="featured-products-section">
         <h2 className="featured-products-title">Featured Products</h2>
